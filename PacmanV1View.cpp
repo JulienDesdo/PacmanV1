@@ -18,6 +18,8 @@
 #endif
 
 #include "matrix.h"
+#include "Cpacman.h"
+#include "pos.h"
 // CPacmanV1View
 
 IMPLEMENT_DYNCREATE(CPacmanV1View, CView)
@@ -66,6 +68,9 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 	matrix graph; 
 	graph.initializeGraph(); 
 
+	Cpacman pacman; 
+	graph.set_value(pacman.pos_pacman.x, pacman.pos_pacman.y, 2); // si pas mis, constructeur inefficace => correction à faire
+
 	int square = 35;
 	
 
@@ -83,6 +88,9 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 			case 1 : // block (rectangle bleu) 
 				pDC->FillSolidRect(&rect, RGB(0, 0, 255));
+				break;
+			case 2 : // pacman (rectangle jaune)
+				pDC->FillSolidRect(&rect, RGB(255, 255, 0));
 				break;
 			default:
 				break;
