@@ -1,0 +1,66 @@
+\doxysection{Main\+Frm.\+h}
+\hypertarget{_main_frm_8h_source}{}\label{_main_frm_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ MainFrm.h :\ interface\ de\ la\ classe\ CMainFrame}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}FileView.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}ClassView.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}OutputWnd.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}PropertiesWnd.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_main_frame}{CMainFrame}}\ :\ \textcolor{keyword}{public}\ CFrameWndEx}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{protected}:\ \textcolor{comment}{//\ création\ à\ partir\ de\ la\ sérialisation\ uniquement}}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_c_main_frame}{CMainFrame}}()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00016\ \ \ \ \ DECLARE\_DYNCREATE(\mbox{\hyperlink{class_c_main_frame}{CMainFrame}})}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Attributs}}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ Opérations}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ Substitutions}}
+\DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ PreCreateWindow(CREATESTRUCT\&\ cs);}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ LoadFrame(UINT\ nIDResource,\ DWORD\ dwDefaultStyle\ =\ WS\_OVERLAPPEDWINDOW\ |\ FWS\_ADDTOTITLE,\ CWnd*\ pParentWnd\ =\ \textcolor{keyword}{nullptr},\ CCreateContext*\ pContext\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ Implémentation}}
+\DoxyCodeLine{00030\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_main_frame}{\string~CMainFrame}}();}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifdef\ \_DEBUG}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ AssertValid()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Dump(CDumpContext\&\ dc)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{protected}:\ \ \textcolor{comment}{//\ membres\ incorporés\ de\ la\ barre\ de\ contrôle}}
+\DoxyCodeLine{00038\ \ \ \ \ CMFCMenuBar\ \ \ \ \ \ \ m\_wndMenuBar;}
+\DoxyCodeLine{00039\ \ \ \ \ CMFCToolBar\ \ \ \ \ \ \ m\_wndToolBar;}
+\DoxyCodeLine{00040\ \ \ \ \ CMFCStatusBar\ \ \ \ \ m\_wndStatusBar;}
+\DoxyCodeLine{00041\ \ \ \ \ CMFCToolBarImages\ m\_UserImages;}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{class_c_file_view}{CFileView}}\ \ \ \ \ \ \ \ \ m\_wndFileView;}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{class_c_class_view}{CClassView}}\ \ \ \ \ \ \ \ m\_wndClassView;}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{class_c_output_wnd}{COutputWnd}}\ \ \ \ \ \ \ \ m\_wndOutput;}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{class_c_properties_wnd}{CPropertiesWnd}}\ \ \ \ m\_wndProperties;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ Fonctions\ générées\ de\ la\ table\ des\ messages}}
+\DoxyCodeLine{00048\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00049\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{int}\ OnCreate(LPCREATESTRUCT\ lpCreateStruct);}
+\DoxyCodeLine{00050\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnViewCustomize();}
+\DoxyCodeLine{00051\ \ \ \ \ afx\_msg\ LRESULT\ OnToolbarCreateNew(WPARAM\ wp,\ LPARAM\ lp);}
+\DoxyCodeLine{00052\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnApplicationLook(UINT\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00053\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnUpdateApplicationLook(CCmdUI*\ pCmdUI);}
+\DoxyCodeLine{00054\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSettingChange(UINT\ uFlags,\ LPCTSTR\ lpszSection);}
+\DoxyCodeLine{00055\ \ \ \ \ DECLARE\_MESSAGE\_MAP()}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ BOOL\ CreateDockingWindows();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ SetDockingWindowIcons(BOOL\ bHiColorIcons);}
+\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ }
+
+\end{DoxyCode}

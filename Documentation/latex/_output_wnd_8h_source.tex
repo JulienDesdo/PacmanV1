@@ -1,0 +1,63 @@
+\doxysection{Output\+Wnd.\+h}
+\hypertarget{_output_wnd_8h_source}{}\label{_output_wnd_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Fenêtre\ de\ COutputList}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_output_list}{COutputList}}\ :\ \textcolor{keyword}{public}\ CListBox}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ Construction}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_c_output_list}{COutputList}}()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ Implémentation}}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_output_list}{\string~COutputList}}();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00018\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnContextMenu(CWnd*\ pWnd,\ CPoint\ point);}
+\DoxyCodeLine{00019\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnEditCopy();}
+\DoxyCodeLine{00020\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnEditClear();}
+\DoxyCodeLine{00021\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnViewOutput();}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ DECLARE\_MESSAGE\_MAP()}
+\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_output_wnd}{COutputWnd}}\ :\ \textcolor{keyword}{public}\ CDockablePane}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ Construction}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{class_c_output_wnd}{COutputWnd}}()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ UpdateFonts();}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ Attributs}}
+\DoxyCodeLine{00035\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00036\ \ \ \ \ CMFCTabCtrl\ m\_wndTabs;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{class_c_output_list}{COutputList}}\ m\_wndOutputBuild;}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{class_c_output_list}{COutputList}}\ m\_wndOutputDebug;}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{class_c_output_list}{COutputList}}\ m\_wndOutputFind;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ FillBuildWindow();}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ FillDebugWindow();}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ FillFindWindow();}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ AdjustHorzScroll(CListBox\&\ wndListBox);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ Implémentation}}
+\DoxyCodeLine{00050\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_output_wnd}{\string~COutputWnd}}();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00054\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{int}\ OnCreate(LPCREATESTRUCT\ lpCreateStruct);}
+\DoxyCodeLine{00055\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSize(UINT\ nType,\ \textcolor{keywordtype}{int}\ cx,\ \textcolor{keywordtype}{int}\ cy);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ DECLARE\_MESSAGE\_MAP()}
+\DoxyCodeLine{00058\ \};}
+\DoxyCodeLine{00059\ }
+
+\end{DoxyCode}

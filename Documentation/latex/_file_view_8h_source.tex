@@ -1,0 +1,60 @@
+\doxysection{File\+View.\+h}
+\hypertarget{_file_view_8h_source}{}\label{_file_view_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}ViewTree.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_file_view_tool_bar}{CFileViewToolBar}}\ :\ \textcolor{keyword}{public}\ CMFCToolBar}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnUpdateCmdUI(CFrameWnd*\ \textcolor{comment}{/*pTarget*/},\ BOOL\ bDisableIfNoHndler)}
+\DoxyCodeLine{00009\ \ \ \ \ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ CMFCToolBar::OnUpdateCmdUI((CFrameWnd*)\ GetOwner(),\ bDisableIfNoHndler);}
+\DoxyCodeLine{00011\ \ \ \ \ \}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ AllowShowOnList()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ FALSE;\ \}}
+\DoxyCodeLine{00014\ \};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_file_view}{CFileView}}\ :\ \textcolor{keyword}{public}\ CDockablePane}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Construction}}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_c_file_view}{CFileView}}()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ AdjustLayout();}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ OnChangeVisualStyle();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ Attributs}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{class_c_view_tree}{CViewTree}}\ m\_wndFileView;}
+\DoxyCodeLine{00029\ \ \ \ \ CImageList\ m\_FileViewImages;}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{class_c_file_view_tool_bar}{CFileViewToolBar}}\ m\_wndToolBar;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ FillFileView();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ Implémentation}}
+\DoxyCodeLine{00036\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_file_view}{\string~CFileView}}();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00040\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{int}\ OnCreate(LPCREATESTRUCT\ lpCreateStruct);}
+\DoxyCodeLine{00041\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSize(UINT\ nType,\ \textcolor{keywordtype}{int}\ cx,\ \textcolor{keywordtype}{int}\ cy);}
+\DoxyCodeLine{00042\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnContextMenu(CWnd*\ pWnd,\ CPoint\ point);}
+\DoxyCodeLine{00043\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnProperties();}
+\DoxyCodeLine{00044\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnFileOpen();}
+\DoxyCodeLine{00045\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnFileOpenWith();}
+\DoxyCodeLine{00046\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnDummyCompile();}
+\DoxyCodeLine{00047\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnEditCut();}
+\DoxyCodeLine{00048\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnEditCopy();}
+\DoxyCodeLine{00049\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnEditClear();}
+\DoxyCodeLine{00050\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnPaint();}
+\DoxyCodeLine{00051\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSetFocus(CWnd*\ pOldWnd);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ DECLARE\_MESSAGE\_MAP()}
+\DoxyCodeLine{00054\ \};}
+\DoxyCodeLine{00055\ }
+
+\end{DoxyCode}

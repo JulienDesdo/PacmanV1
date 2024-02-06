@@ -1,0 +1,57 @@
+\doxysection{Pacman\+V1\+View.\+h}
+\hypertarget{_pacman_v1_view_8h_source}{}\label{_pacman_v1_view_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ PacmanV1View.h :\ interface\ de\ la\ classe\ CPacmanV1View}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_pacman_v1_view}{CPacmanV1View}}\ :\ \textcolor{keyword}{public}\ CView}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{protected}:\ \textcolor{comment}{//\ création\ à\ partir\ de\ la\ sérialisation\ uniquement}}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_c_pacman_v1_view}{CPacmanV1View}}()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00012\ \ \ \ \ DECLARE\_DYNCREATE(\mbox{\hyperlink{class_c_pacman_v1_view}{CPacmanV1View}})}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ Attributs}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_c_pacman_v1_doc}{CPacmanV1Doc}}*\ GetDocument()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Opérations}}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ Substitutions}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnDraw(CDC*\ pDC);\ \ \textcolor{comment}{//\ substitué\ pour\ dessiner\ cette\ vue}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ PreCreateWindow(CREATESTRUCT\&\ cs);}
+\DoxyCodeLine{00025\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ OnPreparePrinting(CPrintInfo*\ pInfo);}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnBeginPrinting(CDC*\ pDC,\ CPrintInfo*\ pInfo);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnEndPrinting(CDC*\ pDC,\ CPrintInfo*\ pInfo);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ Implémentation}}
+\DoxyCodeLine{00031\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_pacman_v1_view}{\string~CPacmanV1View}}();}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#ifdef\ \_DEBUG}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ AssertValid()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Dump(CDumpContext\&\ dc)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ Fonctions\ générées\ de\ la\ table\ des\ messages}}
+\DoxyCodeLine{00041\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00042\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnFilePrintPreview();}
+\DoxyCodeLine{00043\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnRButtonUp(UINT\ nFlags,\ CPoint\ point);}
+\DoxyCodeLine{00044\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnContextMenu(CWnd*\ pWnd,\ CPoint\ point);}
+\DoxyCodeLine{00045\ \ \ \ \ DECLARE\_MESSAGE\_MAP()}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#ifndef\ \_DEBUG\ \ }\textcolor{comment}{//\ version\ Debug\ dans\ PacmanV1View.cpp}}
+\DoxyCodeLine{00049\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{class_c_pacman_v1_doc}{CPacmanV1Doc}}*\ CPacmanV1View::GetDocument()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00050\ \textcolor{keyword}{\ \ \ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{class_c_pacman_v1_doc}{CPacmanV1Doc}}*\textcolor{keyword}{>}(m\_pDocument);\ \}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00052\ }
+
+\end{DoxyCode}

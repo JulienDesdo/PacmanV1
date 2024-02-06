@@ -184,9 +184,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="Cpacman.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="matrix.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PacmanV1.h" />
     <ClInclude Include="PacmanV1Doc.h" />
@@ -199,8 +201,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="Cpacman.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="matrix.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="PacmanV1.cpp" />
     <ClCompile Include="PacmanV1Doc.cpp" />

@@ -1,0 +1,67 @@
+\doxysection{Properties\+Wnd.\+h}
+\hypertarget{_properties_wnd_8h_source}{}\label{_properties_wnd_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_properties_tool_bar}{CPropertiesToolBar}}\ :\ \textcolor{keyword}{public}\ CMFCToolBar}
+\DoxyCodeLine{00005\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnUpdateCmdUI(CFrameWnd*\ \textcolor{comment}{/*pTarget*/},\ BOOL\ bDisableIfNoHndler)}
+\DoxyCodeLine{00008\ \ \ \ \ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ CMFCToolBar::OnUpdateCmdUI((CFrameWnd*)\ GetOwner(),\ bDisableIfNoHndler);}
+\DoxyCodeLine{00010\ \ \ \ \ \}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ AllowShowOnList()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ FALSE;\ \}}
+\DoxyCodeLine{00013\ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_properties_wnd}{CPropertiesWnd}}\ :\ \textcolor{keyword}{public}\ CDockablePane}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Construction}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{class_c_properties_wnd}{CPropertiesWnd}}()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ AdjustLayout();}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ Attributs}}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ SetVSDotNetLook(BOOL\ bSet)}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ m\_wndPropList.SetVSDotNetLook(bSet);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ m\_wndPropList.SetGroupNameFullWidth(bSet);}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00032\ \ \ \ \ CFont\ m\_fntPropList;}
+\DoxyCodeLine{00033\ \ \ \ \ CComboBox\ m\_wndObjectCombo;}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{class_c_properties_tool_bar}{CPropertiesToolBar}}\ m\_wndToolBar;}
+\DoxyCodeLine{00035\ \ \ \ \ CMFCPropertyGridCtrl\ m\_wndPropList;}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ Implémentation}}
+\DoxyCodeLine{00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_properties_wnd}{\string~CPropertiesWnd}}();}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00042\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{int}\ OnCreate(LPCREATESTRUCT\ lpCreateStruct);}
+\DoxyCodeLine{00043\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSize(UINT\ nType,\ \textcolor{keywordtype}{int}\ cx,\ \textcolor{keywordtype}{int}\ cy);}
+\DoxyCodeLine{00044\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnExpandAllProperties();}
+\DoxyCodeLine{00045\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnUpdateExpandAllProperties(CCmdUI*\ pCmdUI);}
+\DoxyCodeLine{00046\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSortProperties();}
+\DoxyCodeLine{00047\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnUpdateSortProperties(CCmdUI*\ pCmdUI);}
+\DoxyCodeLine{00048\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnProperties1();}
+\DoxyCodeLine{00049\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnUpdateProperties1(CCmdUI*\ pCmdUI);}
+\DoxyCodeLine{00050\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnProperties2();}
+\DoxyCodeLine{00051\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnUpdateProperties2(CCmdUI*\ pCmdUI);}
+\DoxyCodeLine{00052\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSetFocus(CWnd*\ pOldWnd);}
+\DoxyCodeLine{00053\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSettingChange(UINT\ uFlags,\ LPCTSTR\ lpszSection);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ DECLARE\_MESSAGE\_MAP()}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ InitPropList();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ SetPropListFont();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_nComboHeight;}
+\DoxyCodeLine{00061\ \};}
+\DoxyCodeLine{00062\ }
+
+\end{DoxyCode}

@@ -17,7 +17,7 @@
 #define new DEBUG_NEW
 #endif
 
-
+#include "matrix.h"
 // CPacmanV1View
 
 IMPLEMENT_DYNCREATE(CPacmanV1View, CView)
@@ -53,12 +53,44 @@ BOOL CPacmanV1View::PreCreateWindow(CREATESTRUCT& cs)
 
 // dessin de CPacmanV1View
 
-void CPacmanV1View::OnDraw(CDC* /*pDC*/)
+void CPacmanV1View::OnDraw(CDC* pDC)
 {
 	CPacmanV1Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+
+
+
+	
+	matrix graph; 
+	graph.initializeGraph(); 
+
+	int square = 35;
+	
+
+	for (int i = 0; i <= 20; i++) {
+		for (int j = 0; j <= 18; j++) {
+			int value = graph.get_value(i,j);
+
+			CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square);
+
+			switch (value)
+			{
+			case 0 : // vide (rectangle noir) 
+				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+				break;
+
+			case 1 : // block (rectangle bleu) 
+				pDC->FillSolidRect(&rect, RGB(0, 0, 255));
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
+	
 
 	// TODO: ajoutez ici le code de dessin pour les données natives
 }

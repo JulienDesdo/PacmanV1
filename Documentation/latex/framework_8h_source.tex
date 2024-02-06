@@ -1,0 +1,54 @@
+\doxysection{framework.\+h}
+\hypertarget{framework_8h_source}{}\label{framework_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ VC\_EXTRALEAN}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ VC\_EXTRALEAN\ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Exclure\ les\ en-\/têtes\ Windows\ rarement\ utilisés}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}targetver.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ \_ATL\_CSTRING\_EXPLICIT\_CONSTRUCTORS\ \ \ \ \ \ }\textcolor{comment}{//\ certains\ constructeurs\ CString\ seront\ explicites}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ désactive\ le\ masquage\ MFC\ de\ certains\ messages\ d'avertissement\ courants\ et\ par\ ailleurs\ souvent\ ignorés}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_AFX\_ALL\_WARNINGS}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <afxwin.h>}\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ composants\ MFC\ principaux\ et\ standard}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <afxext.h>}\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ extensions\ MFC}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <afxdisp.h>}\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Classes\ MFC\ Automation}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#ifndef\ \_AFX\_NO\_OLE\_SUPPORT}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <afxdtctl.h>}\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Prise\ en\ charge\ MFC\ pour\ les\ contrôles\ communs\ Internet\ Explorer 4}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifndef\ \_AFX\_NO\_AFXCMN\_SUPPORT}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <afxcmn.h>}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Prise\ en\ charge\ des\ MFC\ pour\ les\ contrôles\ communs\ Windows}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_AFX\_NO\_AFXCMN\_SUPPORT}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <afxcontrolbars.h>}\ \ \ \ \ \textcolor{comment}{//\ prise\ en\ charge\ des\ MFC\ pour\ les\ rubans\ et\ les\ barres\ de\ contrôles}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#ifdef\ \_UNICODE}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#if\ defined\ \_M\_IX86}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#pragma\ comment(linker,"{}/manifestdependency:\(\backslash\)"{}type='win32'\ name='Microsoft.Windows.Common-\/Controls'\ version='6.0.0.0'\ processorArchitecture='x86'\ publicKeyToken='6595b64144ccf1df'\ language='*'\(\backslash\)"{}"{})}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#elif\ defined\ \_M\_X64}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#pragma\ comment(linker,"{}/manifestdependency:\(\backslash\)"{}type='win32'\ name='Microsoft.Windows.Common-\/Controls'\ version='6.0.0.0'\ processorArchitecture='amd64'\ publicKeyToken='6595b64144ccf1df'\ language='*'\(\backslash\)"{}"{})}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#pragma\ comment(linker,"{}/manifestdependency:\(\backslash\)"{}type='win32'\ name='Microsoft.Windows.Common-\/Controls'\ version='6.0.0.0'\ processorArchitecture='*'\ publicKeyToken='6595b64144ccf1df'\ language='*'\(\backslash\)"{}"{})}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ }
+
+\end{DoxyCode}

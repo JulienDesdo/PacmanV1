@@ -1,0 +1,59 @@
+\doxysection{Class\+View.\+h}
+\hypertarget{_class_view_8h_source}{}\label{_class_view_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}ViewTree.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_class_tool_bar}{CClassToolBar}}\ :\ \textcolor{keyword}{public}\ CMFCToolBar}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnUpdateCmdUI(CFrameWnd*\ \textcolor{comment}{/*pTarget*/},\ BOOL\ bDisableIfNoHndler)}
+\DoxyCodeLine{00009\ \ \ \ \ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ CMFCToolBar::OnUpdateCmdUI((CFrameWnd*)\ GetOwner(),\ bDisableIfNoHndler);}
+\DoxyCodeLine{00011\ \ \ \ \ \}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ AllowShowOnList()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ FALSE;\ \}}
+\DoxyCodeLine{00014\ \};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_class_view}{CClassView}}\ :\ \textcolor{keyword}{public}\ CDockablePane}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{class_c_class_view}{CClassView}}()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_class_view}{\string~CClassView}}();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ AdjustLayout();}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ OnChangeVisualStyle();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{class_c_class_tool_bar}{CClassToolBar}}\ m\_wndToolBar;}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{class_c_view_tree}{CViewTree}}\ m\_wndClassView;}
+\DoxyCodeLine{00028\ \ \ \ \ CImageList\ m\_ClassViewImages;}
+\DoxyCodeLine{00029\ \ \ \ \ UINT\ m\_nCurrSort;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ FillClassView();}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ Substitutions}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{virtual}\ BOOL\ PreTranslateMessage(MSG*\ pMsg);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00038\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{int}\ OnCreate(LPCREATESTRUCT\ lpCreateStruct);}
+\DoxyCodeLine{00039\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSize(UINT\ nType,\ \textcolor{keywordtype}{int}\ cx,\ \textcolor{keywordtype}{int}\ cy);}
+\DoxyCodeLine{00040\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnContextMenu(CWnd*\ pWnd,\ CPoint\ point);}
+\DoxyCodeLine{00041\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnClassAddMemberFunction();}
+\DoxyCodeLine{00042\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnClassAddMemberVariable();}
+\DoxyCodeLine{00043\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnClassDefinition();}
+\DoxyCodeLine{00044\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnClassProperties();}
+\DoxyCodeLine{00045\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnNewFolder();}
+\DoxyCodeLine{00046\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnPaint();}
+\DoxyCodeLine{00047\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSetFocus(CWnd*\ pOldWnd);}
+\DoxyCodeLine{00048\ \ \ \ \ afx\_msg\ LRESULT\ OnChangeActiveTab(WPARAM,\ LPARAM);}
+\DoxyCodeLine{00049\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnSort(UINT\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00050\ \ \ \ \ afx\_msg\ \textcolor{keywordtype}{void}\ OnUpdateSort(CCmdUI*\ pCmdUI);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ DECLARE\_MESSAGE\_MAP()}
+\DoxyCodeLine{00053\ \};}
+\DoxyCodeLine{00054\ }
+
+\end{DoxyCode}
