@@ -13,6 +13,7 @@ public:
     int matrix::get_value(int i, int j);
     void matrix::set_value(int i, int j, int value);
     void matrix::initializeGraph();
+    void matrix::affich();
 };
 
 

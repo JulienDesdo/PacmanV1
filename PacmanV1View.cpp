@@ -31,6 +31,8 @@ BEGIN_MESSAGE_MAP(CPacmanV1View, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CPacmanV1View::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_TIMER()
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 // construction/destruction de CPacmanV1View
@@ -62,34 +64,28 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
-
-
-	
-	matrix graph; 
-	graph.initializeGraph(); 
-
-	Cpacman pacman; 
-	graph.set_value(pacman.pos_pacman.x, pacman.pos_pacman.y, 2); // si pas mis, constructeur inefficace => correction à faire
+	// TODO: ajoutez ici le code de dessin pour les données natives
 
 	int square = 35;
-	
+
+	Cpacman pacman; // pacman instancie le graph puisqu'il s'en sert comme attribut. 
 
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 18; j++) {
-			int value = graph.get_value(i,j);
+			int value = pacman.graph.get_value(i, j);
 
-			CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square);
+			CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square); // car (x,y) inversé par rapport à la matrice. Matrix: x lignes matrices; y colonnes matrices.
 
 			switch (value)
 			{
-			case 0 : // vide (rectangle noir) 
+			case 0: // vide (rectangle noir) 
 				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
 				break;
 
-			case 1 : // block (rectangle bleu) 
+			case 1: // block (rectangle bleu) 
 				pDC->FillSolidRect(&rect, RGB(0, 0, 255));
 				break;
-			case 2 : // pacman (rectangle jaune)
+			case 2: // pacman (rectangle jaune)
 				pDC->FillSolidRect(&rect, RGB(255, 255, 0));
 				break;
 			default:
@@ -97,10 +93,10 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 			}
 		}
 	}
-	
-	
 
-	// TODO: ajoutez ici le code de dessin pour les données natives
+
+
+
 }
 
 
@@ -166,3 +162,38 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 
 
 // gestionnaires de messages de CPacmanV1View
+
+
+void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
+{
+	// Boucle du jeu. 
+
+	CView::OnTimer(nIDEvent);
+}
+
+
+void CPacmanV1View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: ajoutez ici le code de votre gestionnaire de messages et/ou les paramètres par défaut des appels
+	switch (nChar) {
+	case 'z':
+
+		break; 
+
+	case 'q':
+
+		break;
+
+	case 's':
+
+		break;
+
+	case 'd':
+
+		break; 
+	default : 
+		break;
+	}
+
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}

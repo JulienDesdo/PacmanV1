@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "matrix.h"
+#include <iostream>
 
 
 matrix::matrix() {
@@ -26,6 +27,15 @@ int matrix::get_value(int i, int j) {
 
 void matrix::set_value(int i, int j, int value) {
     data[i * cols + j] = value;
+}
+
+void matrix::affich() { // ah si seulement MFC prenait en charge cout... => à creuser pour deboguage
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            std::cout << data[i * cols + j] << " ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 
