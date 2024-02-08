@@ -13,9 +13,6 @@ public :
 	Cpacman(pos pos_initiale); 
 	Cpacman(); 
 	~Cpacman();  
-
-	bool Cpacman::check_collision(matrix graph, pos pos_new); 
-	void Cpacman::move(matrix graph, pos pos_new);
 	
 	/*
 	void Cpacman::right(); 

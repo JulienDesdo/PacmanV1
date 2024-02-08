@@ -8,6 +8,7 @@ matrix::matrix() {
     rows = 21;
     cols = 19;
     data = new int[rows * cols];
+    
 
     for (int i = 0; i < rows * cols; i++) {
         data[i] = 0; 
@@ -29,6 +30,7 @@ int matrix::get_value(int i, int j) {
 void matrix::set_value(int i, int j, int value) {
     data[i * cols + j] = value;
 }
+
 
 void matrix::affich() { // ah si seulement MFC prenait en charge cout... => à creuser pour deboguage
     for (int i = 0; i < rows; i++) {

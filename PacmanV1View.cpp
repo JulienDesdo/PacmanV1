@@ -40,7 +40,7 @@ END_MESSAGE_MAP()
 CPacmanV1View::CPacmanV1View() noexcept
 {
 	// TODO: ajoutez ici du code de construction
-	GameManager game();
+	GameManager game;
 	dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up
 	//graph.initializeGraph();
 
@@ -71,14 +71,13 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 	int square = 35;
 
-
 	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
-	//SetTimer(1, 500*pacman.vitesse, NULL);
+	SetTimer(1, 1000, NULL);
 	//SetFocus();
 
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 18; j++) {
-			 int value = game.graph->get_value(i, j);
+			 int value = game.graph.get_value(i, j);
 				//graph.get_value(i, j);
 
 			CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square); // car (x,y) inversé par rapport à la matrice. Matrix: x lignes matrices; y colonnes matrices.
@@ -100,10 +99,6 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 			}
 		}
 	}
-
-
-
-
 }
 
 
@@ -173,25 +168,24 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
-	/*
+	
 	switch (dir_pacman) {
 	case 0:
-		pacman.left();
+		game.left();
 		break;
 	case 1:
-		pacman.right();
+		game.right();
 		break;
 	case 2:
-		pacman.down();
+		game.down();
 		break;
 	case 3:
-		pacman.up();
+		game.up();
 		break;
 	default:
 		break;
 	}
-	*/
-
+	
 	// Redessiner la vue
 	Invalidate(); 
 
@@ -230,36 +224,35 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 
 BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 {
-	/*
+	
 	// TODO: ajoutez ici votre code spécialisé et/ou l'appel de la classe de base
 	int X = (int)pMsg->wParam;
 
 	// 0 = left, 1=right, 2=down, 3=up
 	if (pMsg->message == WM_KEYDOWN) {
 		if (X == VK_UP) {
-			//pacman.up();
-			if (!pacman.check_up()) dir_pacman = 3;
+			//game.up();
+			if (!game.check_up()) dir_pacman = 3;
 			//AfxMessageBox(L"UP !");
 			
 		}
 		else if (X == VK_DOWN) {
-			//pacman.down();
-			if (!pacman.check_down()) dir_pacman = 2;
+			//game.down();
+			if (!game.check_down()) dir_pacman = 2;
 			//AfxMessageBox(L"DOWN!");
 		}
 		else if (X == VK_LEFT) {
-			//pacman.left();
-			if (!pacman.check_left()) dir_pacman = 0; 
+			//game.left();
+			if (!game.check_left()) dir_pacman = 0; 
 			//AfxMessageBox(L"LEFT!");
 		}
 		else if (X == VK_RIGHT) {
-			//pacman.right();
-			if (!pacman.check_right()) dir_pacman = 1;
+			//game.right();
+			if (!game.check_right()) dir_pacman = 1;
 			//AfxMessageBox(L"RIGHT");
 		}
 	}
 
-
 	return CView::PreTranslateMessage(pMsg);
-	*/
+	
 }

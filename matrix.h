@@ -2,7 +2,7 @@
 #define MATRIX_H
 
 class matrix {
-private:
+public:
     int* data;
     int rows, cols;
 
@@ -14,7 +14,6 @@ public:
     void matrix::set_value(int i, int j, int value);
     void matrix::initializeGraph();
     void matrix::affich();
-
     
 };
 
