@@ -12,6 +12,7 @@ matrix::matrix() {
     for (int i = 0; i < rows * cols; i++) {
         data[i] = 0; 
     }
+    
 }
 
 

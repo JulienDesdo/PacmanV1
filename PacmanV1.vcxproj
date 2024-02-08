@@ -188,6 +188,7 @@
     <ClInclude Include="Cphantom.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="OutputWnd.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Cpacman.cpp" />
     <ClCompile Include="Cphantom.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="OutputWnd.cpp" />

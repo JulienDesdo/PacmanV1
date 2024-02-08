@@ -14,7 +14,11 @@ public:
     void matrix::set_value(int i, int j, int value);
     void matrix::initializeGraph();
     void matrix::affich();
+
+    
 };
+
+
 
 
 

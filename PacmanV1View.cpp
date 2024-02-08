@@ -17,9 +17,9 @@
 #define new DEBUG_NEW
 #endif
 
-#include "matrix.h"
-#include "Cpacman.h"
-#include "pos.h"
+//#include "matrix.h"
+//#include "Cpacman.h"
+//#include "pos.h"
 // CPacmanV1View
 
 IMPLEMENT_DYNCREATE(CPacmanV1View, CView)
@@ -40,8 +40,10 @@ END_MESSAGE_MAP()
 CPacmanV1View::CPacmanV1View() noexcept
 {
 	// TODO: ajoutez ici du code de construction
-	
+	GameManager game();
 	dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up
+	//graph.initializeGraph();
+
 }
 
 CPacmanV1View::~CPacmanV1View()
@@ -69,13 +71,15 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 	int square = 35;
 
+
 	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
-	SetTimer(1, 500*pacman.vitesse, NULL);
-	SetFocus();
+	//SetTimer(1, 500*pacman.vitesse, NULL);
+	//SetFocus();
 
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 18; j++) {
-			int value = pacman.graph.get_value(i, j);
+			 int value = game.graph->get_value(i, j);
+				//graph.get_value(i, j);
 
 			CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square); // car (x,y) inversé par rapport à la matrice. Matrix: x lignes matrices; y colonnes matrices.
 
@@ -169,7 +173,7 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
-	
+	/*
 	switch (dir_pacman) {
 	case 0:
 		pacman.left();
@@ -186,7 +190,8 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 	default:
 		break;
 	}
-	
+	*/
+
 	// Redessiner la vue
 	Invalidate(); 
 
@@ -194,7 +199,7 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 }
 
 
-//void CPacmanV1View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+//void CPacmanV1View::OnKey Down(UINT nChar, UINT nRepCnt, UINT nFlags)
 //{
 //	// TODO: ajoutez ici le code de votre gestionnaire de messages et/ou les paramètres par défaut des appels
 //	switch (nChar) {
@@ -225,6 +230,7 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 
 BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 {
+	/*
 	// TODO: ajoutez ici votre code spécialisé et/ou l'appel de la classe de base
 	int X = (int)pMsg->wParam;
 
@@ -255,4 +261,5 @@ BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 
 
 	return CView::PreTranslateMessage(pMsg);
+	*/
 }

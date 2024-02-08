@@ -4,7 +4,7 @@
 
 #pragma once
 #include "Cpacman.h"
-
+#include "GameManager.h"
 
 class CPacmanV1View : public CView
 {
@@ -15,7 +15,7 @@ protected: // création à partir de la sérialisation uniquement
 // Attributs
 public:
 	CPacmanV1Doc* GetDocument() const;
-	Cpacman pacman;
+	GameManager game;
 	int dir_pacman; 
 
 // Opérations

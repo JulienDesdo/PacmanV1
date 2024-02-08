@@ -1,10 +1,10 @@
 #pragma once
 #include "matrix.h"
 #include "pos.h"
+
 class Cpacman
 {
 public : 
-	matrix graph;
 	pos pos_pacman; 
 	float vitesse; 
 	// Note : plusieurs vitesses permettent d'éviter d'avoir des timers. Surtout quand 
@@ -14,9 +14,10 @@ public :
 	Cpacman(); 
 	~Cpacman();  
 
-	bool Cpacman::check_collision(pos pos_new); 
-	void Cpacman::move(pos pos_new);
+	bool Cpacman::check_collision(matrix graph, pos pos_new); 
+	void Cpacman::move(matrix graph, pos pos_new);
 	
+	/*
 	void Cpacman::right(); 
 	void Cpacman::left(); 
 	void Cpacman::down(); 
@@ -26,6 +27,8 @@ public :
 	bool Cpacman::check_right();
 	bool Cpacman::check_down();
 	bool Cpacman::check_up();
+	*/
+
 };
 
 
