@@ -8,6 +8,8 @@ Cpacman::Cpacman() {
 	this->graph.initializeGraph();
 	this->graph.set_value(pos_pacman.x, pos_pacman.y, 2);
 	// 2 est le chiffre faisant référence à pacman dans la matrice graph (grille du jeu) 
+
+	vitesse = 1; 
 }
 
 Cpacman::Cpacman(pos pos_initiale) { // pour changer l'endroit où pop pacman. 
@@ -15,6 +17,8 @@ Cpacman::Cpacman(pos pos_initiale) { // pour changer l'endroit où pop pacman.
 	pos_pacman.y = pos_initiale.y; 
 	this->graph.initializeGraph();
 	this->graph.set_value(pos_pacman.x, pos_pacman.y, 2); 
+
+	vitesse = 1; 
 }
 
 Cpacman::~Cpacman() {
@@ -63,4 +67,32 @@ void Cpacman::up() {
 	pos_new.x = pos_pacman.x - 1;
 	pos_new.y = pos_pacman.y;
 	move(pos_new);
+}
+
+bool Cpacman::check_left() {
+	pos pos_new;
+	pos_new.x = pos_pacman.x;
+	pos_new.y = pos_pacman.y - 1;
+	return check_collision(pos_new);
+}
+
+bool Cpacman::check_right() {
+	pos pos_new;
+	pos_new.x = pos_pacman.x;
+	pos_new.y = pos_pacman.y + 1;
+	return check_collision(pos_new);
+}
+
+bool Cpacman::check_down() {
+	pos pos_new;
+	pos_new.x = pos_pacman.x + 1;
+	pos_new.y = pos_pacman.y;
+	return check_collision(pos_new);
+}
+
+bool Cpacman::check_up() {
+	pos pos_new;
+	pos_new.x = pos_pacman.x - 1;
+	pos_new.y = pos_pacman.y;
+	return check_collision(pos_new);
 }

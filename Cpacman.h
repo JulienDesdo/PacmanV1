@@ -6,6 +6,7 @@ class Cpacman
 public : 
 	matrix graph;
 	pos pos_pacman; 
+	float vitesse; 
 	// Note : plusieurs vitesses permettent d'éviter d'avoir des timers. Surtout quand 
 	// pacman mange food : Pacman accelère et fantome ralentissent. 
 public : 
@@ -20,6 +21,11 @@ public :
 	void Cpacman::left(); 
 	void Cpacman::down(); 
 	void Cpacman::up();
+
+	bool Cpacman::check_left();
+	bool Cpacman::check_right();
+	bool Cpacman::check_down();
+	bool Cpacman::check_up();
 };
 
 

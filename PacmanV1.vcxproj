@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="Cpacman.h" />
+    <ClInclude Include="Cphantom.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
@@ -203,6 +204,7 @@
   <ItemGroup>
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="Cpacman.cpp" />
+    <ClCompile Include="Cphantom.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="matrix.cpp" />

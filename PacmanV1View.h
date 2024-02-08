@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "Cpacman.h"
 
 
 class CPacmanV1View : public CView
@@ -14,6 +15,8 @@ protected: // création à partir de la sérialisation uniquement
 // Attributs
 public:
 	CPacmanV1Doc* GetDocument() const;
+	Cpacman pacman;
+	int dir_pacman; 
 
 // Opérations
 public:
@@ -45,7 +48,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+//	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
 
 #ifndef _DEBUG  // version Debug dans PacmanV1View.cpp

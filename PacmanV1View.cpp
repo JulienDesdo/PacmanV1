@@ -40,7 +40,8 @@ END_MESSAGE_MAP()
 CPacmanV1View::CPacmanV1View() noexcept
 {
 	// TODO: ajoutez ici du code de construction
-
+	
+	dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up
 }
 
 CPacmanV1View::~CPacmanV1View()
@@ -68,7 +69,9 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 	int square = 35;
 
-	Cpacman pacman; // pacman instancie le graph puisqu'il s'en sert comme attribut. 
+	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
+	SetTimer(1, 500*pacman.vitesse, NULL);
+	SetFocus();
 
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 18; j++) {
@@ -166,34 +169,90 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
-	// Boucle du jeu. 
+	
+	switch (dir_pacman) {
+	case 0:
+		pacman.left();
+		break;
+	case 1:
+		pacman.right();
+		break;
+	case 2:
+		pacman.down();
+		break;
+	case 3:
+		pacman.up();
+		break;
+	default:
+		break;
+	}
+	
+	// Redessiner la vue
+	Invalidate(); 
 
 	CView::OnTimer(nIDEvent);
 }
 
 
-void CPacmanV1View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+//void CPacmanV1View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+//{
+//	// TODO: ajoutez ici le code de votre gestionnaire de messages et/ou les paramètres par défaut des appels
+//	switch (nChar) {
+//	case 'z':
+//		pacman.up();
+//		break; 
+//
+//	case 'q':
+//		pacman.left();
+//		break;
+//
+//	case 's':
+//		pacman.down();
+//		//AfxMessageBox(L"Key down!");
+//		break;
+//
+//	case 'd':
+//		pacman.right();
+//		break; 
+//	default : 
+//		break;
+//	}
+//
+//	
+//	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+//}
+
+
+BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: ajoutez ici le code de votre gestionnaire de messages et/ou les paramètres par défaut des appels
-	switch (nChar) {
-	case 'z':
+	// TODO: ajoutez ici votre code spécialisé et/ou l'appel de la classe de base
+	int X = (int)pMsg->wParam;
 
-		break; 
-
-	case 'q':
-
-		break;
-
-	case 's':
-
-		break;
-
-	case 'd':
-
-		break; 
-	default : 
-		break;
+	// 0 = left, 1=right, 2=down, 3=up
+	if (pMsg->message == WM_KEYDOWN) {
+		if (X == VK_UP) {
+			//pacman.up();
+			if (!pacman.check_up()) dir_pacman = 3;
+			//AfxMessageBox(L"UP !");
+			
+		}
+		else if (X == VK_DOWN) {
+			//pacman.down();
+			if (!pacman.check_down()) dir_pacman = 2;
+			//AfxMessageBox(L"DOWN!");
+		}
+		else if (X == VK_LEFT) {
+			//pacman.left();
+			if (!pacman.check_left()) dir_pacman = 0; 
+			//AfxMessageBox(L"LEFT!");
+		}
+		else if (X == VK_RIGHT) {
+			//pacman.right();
+			if (!pacman.check_right()) dir_pacman = 1;
+			//AfxMessageBox(L"RIGHT");
+		}
 	}
 
-	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+
+	return CView::PreTranslateMessage(pMsg);
 }
