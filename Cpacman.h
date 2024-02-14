@@ -1,31 +1,22 @@
-#pragma once
-#include "matrix.h"
-#include "pos.h"
+#ifndef PACMAN_H
+#define PACMAN_H
 
-class Cpacman
+#include "pos.h"
+#include "Entity.h"
+
+class Cpacman : public Entity 
 {
 public : 
 	pos pos_pacman; 
-	float vitesse; 
-	// Note : plusieurs vitesses permettent d'éviter d'avoir des timers. Surtout quand 
-	// pacman mange food : Pacman accelère et fantome ralentissent. 
+	int life_nbr; 
+	int score; 
+	int power; // Pouvoir spéciale que pacman possède. 0 = Etat Normal
 public : 
-	Cpacman(pos pos_initiale); 
-	Cpacman(); 
-	~Cpacman();  
-	
-	/*
-	void Cpacman::right(); 
-	void Cpacman::left(); 
-	void Cpacman::down(); 
-	void Cpacman::up();
-
-	bool Cpacman::check_left();
-	bool Cpacman::check_right();
-	bool Cpacman::check_down();
-	bool Cpacman::check_up();
-	*/
+	Cpacman();
+	Cpacman(pos pos_initiale);
+	virtual ~Cpacman();
 
 };
 
+#endif // PACMAN_H
 

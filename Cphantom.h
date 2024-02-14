@@ -1,31 +1,18 @@
 #pragma once
-#include "matrix.h"
 #include "pos.h"
+#include "Entity.h"
 
-class Cphantom
+class Cphantom : public Entity 
 {
 public : 
-	matrix graph; // probleme même graph. Comment avoir même graphe partout ? graph.pacman OU pacman.graph ? 
 	pos pos_phantom;
-	float vitesse;
+	// type? mode; // definit la mode chasse/fuite du fantom selon que pacman ait mangé un super-fruit ou non. 
+	// type? stratégie; // stratégie issue de la théorie des graphes. 
+
+	int color_id; // 0 red, 1 cyan, 2 rose, 3 orange;
 
 	Cphantom();
-	Cphantom(pos pos_initiale);
+	Cphantom(pos pos_intiale);
 	~Cphantom(); 
-
-	bool Cphantom::check_collision(pos pos_new);
-	void Cphantom::move(pos pos_new);
-
-	void Cphantom::right();
-	void Cphantom::left();
-	void Cphantom::down();
-	void Cphantom::up();
-
-	bool Cphantom::check_left();
-	bool Cphantom::check_right();
-	bool Cphantom::check_down();
-	bool Cphantom::check_up();
-
-	void Cphantom::move_auto1(); // graph theory 
 };
 

@@ -94,6 +94,8 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 			case 2: // pacman (rectangle jaune)
 				pDC->FillSolidRect(&rect, RGB(255, 255, 0));
 				break;
+			case 3 : // phantom Blinky (rectangle rouge)
+				pDC->FillSolidRect(&rect, RGB(255, 0, 0));
 			default:
 				break;
 			}
@@ -171,16 +173,17 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 	
 	switch (dir_pacman) {
 	case 0:
-		game.left();
+		game.left(game.pacman);
+		game.right(game.Blinky);
 		break;
 	case 1:
-		game.right();
+		game.right(game.pacman);
 		break;
 	case 2:
-		game.down();
+		game.down(game.pacman);
 		break;
 	case 3:
-		game.up();
+		game.up(game.pacman);
 		break;
 	default:
 		break;
@@ -232,23 +235,23 @@ BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 	if (pMsg->message == WM_KEYDOWN) {
 		if (X == VK_UP) {
 			//game.up();
-			if (!game.check_up()) dir_pacman = 3;
+			if (!game.check_up(game.pacman)) dir_pacman = 3;
 			//AfxMessageBox(L"UP !");
 			
 		}
 		else if (X == VK_DOWN) {
 			//game.down();
-			if (!game.check_down()) dir_pacman = 2;
+			if (!game.check_down(game.pacman)) dir_pacman = 2;
 			//AfxMessageBox(L"DOWN!");
 		}
 		else if (X == VK_LEFT) {
 			//game.left();
-			if (!game.check_left()) dir_pacman = 0; 
+			if (!game.check_left(game.pacman)) dir_pacman = 0; 
 			//AfxMessageBox(L"LEFT!");
 		}
 		else if (X == VK_RIGHT) {
 			//game.right();
-			if (!game.check_right()) dir_pacman = 1;
+			if (!game.check_right(game.pacman)) dir_pacman = 1;
 			//AfxMessageBox(L"RIGHT");
 		}
 	}

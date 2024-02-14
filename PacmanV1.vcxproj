@@ -186,6 +186,7 @@
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="Cpacman.h" />
     <ClInclude Include="Cphantom.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameManager.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="Cpacman.cpp" />
     <ClCompile Include="Cphantom.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MainFrm.cpp" />
