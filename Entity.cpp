@@ -18,3 +18,8 @@ Entity::Entity(pos pos_initiale, int ID) { // pour changer l'endroit où pop pacm
 Entity::~Entity() {
 
 }
+
+void Entity::set_pos_entity(pos new_pos) {
+	position = new_pos;
+
+}

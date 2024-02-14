@@ -15,4 +15,8 @@ Cpacman::Cpacman(pos pos_intiale) : Entity(pos_intiale, 2) { // Appel : Cpacman 
 	power = 0;
 }
 
+void Cpacman::set_pos(pos pos_new) {
+	pos_pacman = pos_new; 
+}
+
 Cpacman::~Cpacman() {}

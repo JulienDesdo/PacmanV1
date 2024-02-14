@@ -32,12 +32,21 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 	if (!check_collision(pos_new)) {
 		graph.set_value(pos_new.x, pos_new.y, entity.entity_id);
 		graph.set_value(entity.position.x, entity.position.y, 0);  
-		entity.position.x = pos_new.x;
-		entity.position.y = pos_new.y;
+		//entity.position.x = pos_new.x;
+		//entity.position.y = pos_new.y;
+		//entity.set_pos_entity(pos_new); 
+		if (entity.entity_id == 2) {
+			// pacman  
+			pacman.set_pos_entity(pos_new);
+			pacman.set_pos(pos_new);
+		}
+				
 	}
-	// Sinon, pas de changement car pacman ne peut pas aller dans cette direction. 
+	// Sinon, pas de changement car pacman ne peut pas aller dans cette direction.
 	// La matrice ne change donc pas jusqu'à nouvelle instruction. 
 }
+
+
 
 void GameManager::left(Entity entity) {
 	pos pos_new;

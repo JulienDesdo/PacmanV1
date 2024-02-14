@@ -174,7 +174,6 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 	switch (dir_pacman) {
 	case 0:
 		game.left(game.pacman);
-		game.right(game.Blinky);
 		break;
 	case 1:
 		game.right(game.pacman);

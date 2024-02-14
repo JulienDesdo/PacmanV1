@@ -32,6 +32,5 @@ public:
 	bool GameManager::check_right(Entity entity);
 	bool GameManager::check_down(Entity entity);
 	bool GameManager::check_up(Entity entity);
-
 };
 
