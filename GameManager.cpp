@@ -4,19 +4,35 @@
 
 GameManager::GameManager() { 
 	graph.initializeGraph(); 
-	/* 
-	Entity pacman(pos{ 15,9 }, 2); // obligé de réecrire ça ici, et ce même si on l'a déjà écrit dans le prototype. 
-	graph.set_value(pacman.position.x, pacman.position.y, pacman.entity_id);
-
-	Entity Blinky(pos{ 7,9 }, 3);
-	graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id);
-	*/ 
-
-	Cphantom Blinky(pos{ 7,9 }); 
-	graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id); // mise à jour de la présence du phantom sur le graphe. 
+	
+	// PACMAN 
 	Cpacman pacman(pos{ 15,9 });
 	graph.set_value(pacman.position.x, pacman.position.y, pacman.entity_id); // --- du pacman ----
+
+	// PHANTOM
+
+	// Blinky
+	Cphantom Blinky(pos{ 7,9 }); 
+	Blinky.color_id = 1; // Rouge
+	graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.color_id + Blinky.entity_id); // mise à jour de la présence du phantom sur le graphe. 
+
+	// Inky 
+	Cphantom Inky(pos{ 9,8 });
+	Inky.color_id = 2; // Cyan 
+	graph.set_value(Inky.position.x, Inky.position.y, Inky.color_id + Inky.entity_id); // 2 + 3 = 5 ; 5 => phantom Cyan 
+
+
+	// Pinky 
+	Cphantom Pinky(pos{ 9,9 });
+	Pinky.color_id = 3; // Rose 
+	graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.color_id + Pinky.entity_id); // 3+ 3 = 6 ; 6 => phantom Rose  
+
+	// Clyde 
+	Cphantom Clyde(pos{ 9,10 });
+	Clyde.color_id = 4; // Orange 
+	graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.color_id + Clyde.entity_id); // 3+ 3 = 6 ; 6 => phantom Rose  
 	
+	// Color ID = 0 => valeur matrice = 3 => phantom grisée (inactif)  
 }
 
 GameManager::~GameManager() {
@@ -32,13 +48,15 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 	if (!check_collision(pos_new)) {
 		graph.set_value(pos_new.x, pos_new.y, entity.entity_id);
 		graph.set_value(entity.position.x, entity.position.y, 0);  
-		//entity.position.x = pos_new.x;
-		//entity.position.y = pos_new.y;
-		//entity.set_pos_entity(pos_new); 
+		
 		if (entity.entity_id == 2) {
 			// pacman  
 			pacman.set_pos_entity(pos_new);
 			pacman.set_pos(pos_new);
+		}
+		else if(entity.entity_id == 3) { // Problème Identificateur ICI 
+			Blinky.set_pos_entity(pos_new);
+			Blinky.set_pos(pos_new);
 		}
 				
 	}

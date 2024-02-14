@@ -14,5 +14,7 @@ public :
 	Cphantom();
 	Cphantom(pos pos_intiale);
 	~Cphantom(); 
+
+	void Cphantom::set_pos(pos pos_new);
 };
 

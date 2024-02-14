@@ -75,6 +75,7 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 	SetTimer(1, 1000, NULL);
 	//SetFocus();
 
+
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 18; j++) {
 			 int value = game.graph.get_value(i, j);
@@ -94,8 +95,22 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 			case 2: // pacman (rectangle jaune)
 				pDC->FillSolidRect(&rect, RGB(255, 255, 0));
 				break;
-			case 3 : // phantom Blinky (rectangle rouge)
-				pDC->FillSolidRect(&rect, RGB(255, 0, 0));
+			case 3 : 
+				pDC->FillSolidRect(&rect, RGB(158,158,158)); // phantom par défaut, gris
+				break;
+			case 4 : 
+				pDC->FillSolidRect(&rect, RGB(255,0,0)); // phantom Blinky (rectangle rouge)
+				break;
+			case 5 : 
+				pDC->FillSolidRect(&rect, RGB(0,255,255)); // phantom Inky (rectangle cyan)
+				break;
+			case 6 : 
+				pDC->FillSolidRect(&rect, RGB(253, 108, 158)); // phantom Pinky (rectangle rose) 
+				break;
+			case 7 : 
+				pDC->FillSolidRect(&rect, RGB(255, 69, 0)); // phantom Clyde (rectangle orange)
+				break;
+
 			default:
 				break;
 			}

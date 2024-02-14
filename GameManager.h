@@ -11,11 +11,10 @@ public:
 	matrix graph;
 	Cpacman pacman;
 	Cphantom Blinky; // fantome rouge;
-	/*
-	Entity Inky;  // fantome cyan;
-	Entity Pinky; // fantome rose;
-	Entity Clyde; // fantome orange;
-	*/
+	Cphantom Inky;  // fantome cyan;
+	Cphantom Pinky; // fantome rose;
+	Cphantom Clyde; // fantome orange;
+	
 
 	GameManager();
 	~GameManager(); 

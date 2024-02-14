@@ -16,3 +16,7 @@ Cphantom::~Cphantom() {
 
 }
 
+void Cphantom::set_pos(pos pos_new) {
+	pos_phantom = pos_new;
+}
+
