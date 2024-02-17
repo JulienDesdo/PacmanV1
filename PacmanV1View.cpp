@@ -129,18 +129,18 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 	// Affichage du score
 	CString scoreText;
-	scoreText.Format(_T("Score: %d"), game.score);
+	scoreText.Format(_T("SCORE   %d"), game.score);
 	CFont font;
 	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
 	CFont* oldFont = pDC->SelectObject(&font);
 	pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
-	pDC->TextOutW(100, square*21, scoreText);
+	pDC->TextOutW(120, square*21, scoreText);
 	pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 
 	// Affichage des vies
 	CString livesText;
-	livesText.Format(_T("Vies: %d"), game.life);
+	livesText.Format(_T("LIVES   %d"), game.life);
 	font.DeleteObject(); // Supprimer l'ancienne fonte
 	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras

@@ -6,7 +6,8 @@ GameManager::GameManager() {
 	graph.initializeGraph(); 
 	init_food(); 
 	score = 0; 
-	life = 0; 
+	life = 3; 
+	lvl = 0;
 	// PACMAN 
 	Cpacman pacman(pos{ 15,9 });
 	graph.set_value(pacman.position.x, pacman.position.y, pacman.entity_id); // --- du pacman ----
@@ -59,6 +60,9 @@ bool GameManager::check_high_food(pos pos_new) {
 void GameManager::reset_food() {
 	if (nb_basic_food_restantes <= 0 && nb_high_food_restantes <= 0) {
 		init_food();
+		nb_basic_food_restantes = 146; 
+		nb_high_food_restantes = 4; 
+		lvl += 1; // le niveau permettra d'ajuster la difficulté du comportement des fantomes (vitesse, type d'algo), d'ajouter des powers spéciales
 	}
 }
 

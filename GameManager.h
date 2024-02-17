@@ -23,6 +23,7 @@ public:
 
 	int score; 
 	int life;
+	int lvl; 
 	GameManager();
 	~GameManager(); 
 
