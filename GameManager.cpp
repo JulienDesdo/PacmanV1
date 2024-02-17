@@ -66,30 +66,48 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 	if (!check_collision(pos_new)) { 
 		
 		if (entity.entity_id == 2) {
-			// pacman  
-			pacman.set_pos_entity(pos_new);
-			pacman.set_pos(pos_new);
+			
 			// Vérification Nourriture pour pacman. 
 			if (check_basic_food(pos_new)) { 
+				graph.set_value(pos_new.x, pos_new.y, entity.entity_id);
+				graph.set_value(entity.position.x, entity.position.y, 0);
+				// pacman  
+				pacman.set_pos_entity(pos_new);
+				pacman.set_pos(pos_new);
+
 				score += 10; 
 				nb_basic_food_restantes -= 1;
 			}
 			else if (check_high_food(pos_new)) {
+				graph.set_value(pos_new.x, pos_new.y, entity.entity_id);
+				graph.set_value(entity.position.x, entity.position.y, 0);
+				// pacman  
+				pacman.set_pos_entity(pos_new);
+				pacman.set_pos(pos_new);
+
 				score += 50;
 				nb_high_food_restantes -= 1;
 				// fantome deviennent vulnérables, et pacman prédateur pendant 8 secondes. 
 				// Changement de comportement des fantomes
 			}
+			else {
+				graph.set_value(pos_new.x, pos_new.y, entity.entity_id);
+				graph.set_value(entity.position.x, entity.position.y, 0);
+				// pacman  
+				pacman.set_pos_entity(pos_new);
+				pacman.set_pos(pos_new);
+
+			}
 
 		}
 		else if(entity.entity_id == 3) { // Problème Identificateur ICI 
+			graph.set_value(pos_new.x, pos_new.y, entity.entity_id);
+			graph.set_value(entity.position.x, entity.position.y, 0);
 			Blinky.set_pos_entity(pos_new);
 			Blinky.set_pos(pos_new);
 		}
 				
 	}
-	graph.set_value(pos_new.x, pos_new.y, entity.entity_id);
-	graph.set_value(entity.position.x, entity.position.y, 0);
 	// Sinon, pas de changement car pacman ne peut pas aller dans cette direction.
 	// La matrice ne change donc pas jusqu'à nouvelle instruction. 
 }
