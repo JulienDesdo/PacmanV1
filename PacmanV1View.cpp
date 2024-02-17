@@ -72,9 +72,9 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 	int square = 35;
 
 	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
-	SetTimer(1, 1000, NULL);
+	SetTimer(1, 500, NULL);
 	//SetFocus();
-
+	
 
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 18; j++) {
@@ -82,7 +82,8 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 				//graph.get_value(i, j);
 
 			CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square); // car (x,y) inversé par rapport à la matrice. Matrix: x lignes matrices; y colonnes matrices.
-
+			CRect smallFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 2.3, rect.top + square / 2.3);
+			CRect bigFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 1.4, rect.top + square / 1.4);
 			switch (value)
 			{
 			case 0: // vide (rectangle noir) 
@@ -110,12 +111,45 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 			case 7 : 
 				pDC->FillSolidRect(&rect, RGB(255, 69, 0)); // phantom Clyde (rectangle orange)
 				break;
+			case 8 : // case de la nourriture petite 
+				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+				pDC->FillSolidRect(&smallFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+				break;
+				
+			case 9 : // case de la grosse nourriture
+				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+				pDC->FillSolidRect(&bigFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+				break;
 
 			default:
 				break;
 			}
 		}
 	}
+
+	// Affichage du score
+	CString scoreText;
+	scoreText.Format(_T("Score: %d"), game.score);
+	CFont font;
+	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+	CFont* oldFont = pDC->SelectObject(&font);
+	pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+	pDC->TextOutW(100, square*21, scoreText);
+	pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+
+	// Affichage des vies
+	CString livesText;
+	livesText.Format(_T("Vies: %d"), game.life);
+	font.DeleteObject(); // Supprimer l'ancienne fonte
+	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+	oldFont = pDC->SelectObject(&font);
+	pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+	pDC->TextOutW(30, square*21, livesText);
+	pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+
+
 }
 
 
@@ -185,7 +219,7 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
-	
+	game.reset_food();
 	switch (dir_pacman) {
 	case 0:
 		game.left(game.pacman);

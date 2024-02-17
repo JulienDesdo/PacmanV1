@@ -17,7 +17,7 @@ public :
 	virtual ~Cpacman();
 
 	void Cpacman::set_pos(pos pos_new);
-};
+};  
 
 #endif // PACMAN_H
 
