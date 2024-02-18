@@ -15,6 +15,7 @@ public :
 
 	int entity_id; // 0 block, 1 vide, 2 pacman, 3 phantom
 	void Entity::set_pos_entity(pos new_pos);
+	pos Entity::get_pos_entity();
 };
 
 #endif // ENTITY_H

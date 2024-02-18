@@ -21,5 +21,8 @@ Entity::~Entity() {
 
 void Entity::set_pos_entity(pos new_pos) {
 	position = new_pos;
+}
 
+pos Entity::get_pos_entity() {
+	return position;
 }

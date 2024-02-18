@@ -74,7 +74,9 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
 	SetTimer(1, 500, NULL);
 	//SetFocus();
-	
+
+
+	game.Move_fantome();
 
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 18; j++) {
@@ -102,6 +104,12 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 			case 4 : 
 				pDC->FillSolidRect(&rect, RGB(255,0,0)); // phantom Blinky (rectangle rouge)
 				break;
+			case 14 : 
+				pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
+				break;
+			case 24 : 
+				pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
+				break;
 			case 5 : 
 				pDC->FillSolidRect(&rect, RGB(0,255,255)); // phantom Inky (rectangle cyan)
 				break;
@@ -111,12 +119,12 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 			case 7 : 
 				pDC->FillSolidRect(&rect, RGB(255, 69, 0)); // phantom Clyde (rectangle orange)
 				break;
-			case 8 : // case de la nourriture petite 
+			case 10 : // case de la nourriture petite 
 				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
 				pDC->FillSolidRect(&smallFoodRect, RGB(255, 255, 255)); // Rectangle blanc
 				break;
 				
-			case 9 : // case de la grosse nourriture
+			case 20 : // case de la grosse nourriture
 				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
 				pDC->FillSolidRect(&bigFoodRect, RGB(255, 255, 255)); // Rectangle blanc
 				break;
@@ -129,7 +137,7 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 	// Affichage du score
 	CString scoreText;
-	scoreText.Format(_T("SCORE   %d"), game.score);
+	scoreText.Format(_T("SCORE   %d"), game.pacman.score);
 	CFont font;
 	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
@@ -140,7 +148,7 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 	// Affichage des vies
 	CString livesText;
-	livesText.Format(_T("LIVES   %d"), game.life);
+	livesText.Format(_T("LIVES   %d"), game.pacman.life_nbr);
 	font.DeleteObject(); // Supprimer l'ancienne fonte
 	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
@@ -236,6 +244,7 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 	default:
 		break;
 	}
+
 	
 	// Redessiner la vue
 	Invalidate(); 

@@ -5,16 +5,18 @@
 class Cphantom : public Entity 
 {
 public : 
-	pos pos_phantom;
-	// type? mode; // definit la mode chasse/fuite du fantom selon que pacman ait mangé un super-fruit ou non. 
+	//pos pos_phantom;
+	// definit la mode chasse/fuite du fantom selon que pacman ait mangé un super-fruit ou non. 
+	//bool state = 0; // 0 = predateur , 1 = victime toute désignée.  PAS ICI car valable pour tous les fantomes en même temps => on le met dans manager
 	// type? stratégie; // stratégie issue de la théorie des graphes. 
 
 	int color_id; // 0 red, 1 cyan, 2 rose, 3 orange;
 
 	Cphantom();
 	Cphantom(pos pos_intiale);
+	Cphantom(pos pos_initiale, int ID);
 	~Cphantom(); 
 
-	void Cphantom::set_pos(pos pos_new);
+
 };
 
