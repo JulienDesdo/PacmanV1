@@ -8,28 +8,32 @@ GameManager::GameManager() {
 	lvl = 0;
 	// PACMAN 
 	Cpacman pacman(pos{ 15,9 });
+	this->pacman = pacman; // C'était l'erreur fatidique ! LIGNE INDESPENSABLE !!!! 
 	graph.set_value(pacman.position.x, pacman.position.y, pacman.entity_id); // --- du pacman ----
-
 	// PHANTOM
 
 	// Blinky
 	Cphantom Blinky(pos{ 7,9 }, 4); 
+	this->Blinky = Blinky;
 	//Blinky.color_id = 1; // Rouge
 	graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id); // mise à jour de la présence du phantom sur le graphe. 
 
 	// Inky 
 	Cphantom Inky(pos{ 9,8 }, 5);
+	this->Pinky = Pinky; 
 	//Inky.color_id = 2; // Cyan 
 	graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id); // 2 + 3 = 5 ; 5 => phantom Cyan 
 
 
 	// Pinky 
 	Cphantom Pinky(pos{ 9,9 }, 6);
+	this->Pinky = Pinky; 
 	//Pinky.color_id = 3; // Rose 
 	graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id); // 3+ 3 = 6 ; 6 => phantom Rose  
 
 	// Clyde 
 	Cphantom Clyde(pos{ 9,10 }, 7);
+	this->Clyde = Clyde; // Eh oui ! Il faut évidemmment stocker "this" dans game ! 
 	//Clyde.color_id = 4; // Orange 
 	graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id); // 3 + 4 = 7 ; 7 => phantom orange	
 	// Color ID = 0 => valeur matrice = 3 => phantom grisée (inactif)  
@@ -89,12 +93,16 @@ void GameManager::Game_reset() { // si perte de vie alors game_reset s'enclenche
 
 void GameManager::Move_fantome() {
 	if (state_fantome == 0) { // cas normal, les fantomes attaquent pacman. 
-		if (!check_left(Blinky)) {
+		if (!check_up(Blinky)) {
+			up(Blinky);
+		}
+		else if (!check_left(Blinky)) {
 			left(Blinky);
 		}
 		else if (!check_down(Blinky)) {
 			down(Blinky);
 		}
+
 	}
 	else { // cas fantomes deviennent bleu, sont vulnérables, changent de comportements. 
 
@@ -168,6 +176,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 
 		}
 		// CAS FANTOMES
+		// PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME PROBLEME 
 		else if (entity.entity_id == 4 || entity.entity_id == 5 || entity.entity_id == 6 || entity.entity_id == 7) { // PROBLEME ICI, id vaut toujours la valeur de l'ID du constructuer Entity.
 			int value = entity.entity_id + graph.get_value(pos_new.x, pos_new.y);
 			switch (entity.entity_id + graph.get_value(pos_new.x, pos_new.y)) { 
