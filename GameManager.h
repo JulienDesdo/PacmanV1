@@ -22,7 +22,8 @@ public:
 	int nb_high_food_restantes = 4; // Normalement 4 sur la map intiale 
 
 	bool state_fantome = 0; // 0 = Phantome attack ; 1 = Phantome vulnérable et pacman attack.  
-	
+	bool affich_tot = 0; 
+
 	int lvl; 
 	GameManager();
 	~GameManager(); 
@@ -47,8 +48,9 @@ public:
 	void GameManager::reset_food();
 
 	void GameManager::Game_reset(); // Une fois que Pacman est mort; perd une vie. 
-	//void GameManager::move_to_initial(Entity entity);
 
+	bool GameManager::Collision_Entity(Entity entity1, Entity entity2);
 	void GameManager::Move_fantome(); 
+ 
 };
 

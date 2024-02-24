@@ -17,6 +17,9 @@ public:
 	CPacmanV1Doc* GetDocument() const;
 	GameManager game;
 	int dir_pacman; 
+	int square;
+
+	void CPacmanV1View::afficher(int i, int j, CDC* pDC);
 
 // Opérations
 public:

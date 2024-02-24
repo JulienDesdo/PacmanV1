@@ -41,9 +41,8 @@ CPacmanV1View::CPacmanV1View() noexcept
 {
 	// TODO: ajoutez ici du code de construction
 	GameManager game;
-	dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up
-	//graph.initializeGraph();
-
+	dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up 
+	square = 35;
 }
 
 CPacmanV1View::~CPacmanV1View()
@@ -58,7 +57,60 @@ BOOL CPacmanV1View::PreCreateWindow(CREATESTRUCT& cs)
 	return CView::PreCreateWindow(cs);
 }
 
-// dessin de CPacmanV1View
+void CPacmanV1View::afficher(int i, int j, CDC* pDC){
+	CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square); // car (x,y) inversé par rapport à la matrice. Matrix: x lignes matrices; y colonnes matrices.
+	CRect smallFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 2.3, rect.top + square / 2.3);
+	CRect bigFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 1.4, rect.top + square / 1.4);
+
+	switch (game.graph.get_value(i, j))
+	{
+	case 0: // vide (rectangle noir) 
+		pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+		break;
+
+	case 1: // block (rectangle bleu) 
+		pDC->FillSolidRect(&rect, RGB(0, 0, 255));
+		break;
+	case 2: // pacman (rectangle jaune)
+		pDC->FillSolidRect(&rect, RGB(255, 255, 0));
+		break;
+	case 3:
+		pDC->FillSolidRect(&rect, RGB(158, 158, 158)); // phantom par défaut, gris
+		break;
+	case 4:
+		pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
+		break;
+	case 14:
+		pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
+		break;
+	case 24:
+		pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
+		break;
+	case 5:
+		pDC->FillSolidRect(&rect, RGB(0, 255, 255)); // phantom Inky (rectangle cyan)
+		break;
+	case 6:
+		pDC->FillSolidRect(&rect, RGB(253, 108, 158)); // phantom Pinky (rectangle rose) 
+		break;
+	case 7:
+		pDC->FillSolidRect(&rect, RGB(255, 69, 0)); // phantom Clyde (rectangle orange)
+		break;
+	case 10: // case de la nourriture petite 
+		pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+		pDC->FillSolidRect(&smallFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+		break;
+
+	case 20: // case de la grosse nourriture
+		pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+		pDC->FillSolidRect(&bigFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+		break;
+
+	default:
+		break;
+	}
+
+
+}
 
 void CPacmanV1View::OnDraw(CDC* pDC)
 {
@@ -69,72 +121,26 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 	// TODO: ajoutez ici le code de dessin pour les données natives
 
-	int square = 35;
 
 	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
 	SetTimer(1, 500, NULL);
 	//SetFocus();
 
-
+	
 	game.Move_fantome();
+	bool affich_tot = true;
 
-	for (int i = 0; i <= 20; i++) {
-		for (int j = 0; j <= 18; j++) {
-			 int value = game.graph.get_value(i, j);
-				//graph.get_value(i, j);
-
-			CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square); // car (x,y) inversé par rapport à la matrice. Matrix: x lignes matrices; y colonnes matrices.
-			CRect smallFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 2.3, rect.top + square / 2.3);
-			CRect bigFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 1.4, rect.top + square / 1.4);
-			switch (value)
-			{
-			case 0: // vide (rectangle noir) 
-				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
-				break;
-
-			case 1: // block (rectangle bleu) 
-				pDC->FillSolidRect(&rect, RGB(0, 0, 255));
-				break;
-			case 2: // pacman (rectangle jaune)
-				pDC->FillSolidRect(&rect, RGB(255, 255, 0));
-				break;
-			case 3 : 
-				pDC->FillSolidRect(&rect, RGB(158,158,158)); // phantom par défaut, gris
-				break;
-			case 4 : 
-				pDC->FillSolidRect(&rect, RGB(255,0,0)); // phantom Blinky (rectangle rouge)
-				break;
-			case 14 : 
-				pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
-				break;
-			case 24 : 
-				pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
-				break;
-			case 5 : 
-				pDC->FillSolidRect(&rect, RGB(0,255,255)); // phantom Inky (rectangle cyan)
-				break;
-			case 6 : 
-				pDC->FillSolidRect(&rect, RGB(253, 108, 158)); // phantom Pinky (rectangle rose) 
-				break;
-			case 7 : 
-				pDC->FillSolidRect(&rect, RGB(255, 69, 0)); // phantom Clyde (rectangle orange)
-				break;
-			case 10 : // case de la nourriture petite 
-				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
-				pDC->FillSolidRect(&smallFoodRect, RGB(255, 255, 255)); // Rectangle blanc
-				break;
-				
-			case 20 : // case de la grosse nourriture
-				pDC->FillSolidRect(&rect, RGB(0, 0, 0));
-				pDC->FillSolidRect(&bigFoodRect, RGB(255, 255, 255)); // Rectangle blanc
-				break;
-
-			default:
-				break;
+	if (affich_tot) {
+		for (int i = 0; i <= 20; i++) {
+			for (int j = 0; j <= 18; j++) {
+				afficher(i, j, pDC);
 			}
 		}
 	}
+	else {
 
+	}
+	
 	// Affichage du score
 	CString scoreText;
 	scoreText.Format(_T("SCORE   %d"), game.pacman.score);
@@ -143,7 +149,7 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
 	CFont* oldFont = pDC->SelectObject(&font);
 	pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
-	pDC->TextOutW(120, square*21, scoreText);
+	pDC->TextOutW(120, square*21, scoreText); // pDC->TextOutW(120, square*21, scoreText); 
 	pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 
 	// Affichage des vies
@@ -227,7 +233,13 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
-	game.reset_food();
+
+
+
+
+
+
+
 	switch (dir_pacman) {
 	case 0:
 		game.left(game.pacman);
