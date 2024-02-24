@@ -9,7 +9,6 @@ matrix::matrix() {
     cols = 19;
     data = new int[rows * cols];
     
-
     for (int i = 0; i < rows * cols; i++) {
         data[i] = 0; 
     }

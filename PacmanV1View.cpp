@@ -43,6 +43,7 @@ CPacmanV1View::CPacmanV1View() noexcept
 	GameManager game;
 	dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up 
 	square = 35;
+
 }
 
 CPacmanV1View::~CPacmanV1View()
@@ -123,23 +124,29 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 
 
 	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
-	SetTimer(1, 500, NULL);
+	SetTimer(1, 375, NULL);
 	//SetFocus();
 
 	
-	game.Move_fantome();
-	bool affich_tot = true;
+	//game.Move_fantome();
+	
 
-	if (affich_tot) {
+	if (game.affich_tot) {
 		for (int i = 0; i <= 20; i++) {
 			for (int j = 0; j <= 18; j++) {
 				afficher(i, j, pDC);
+				
 			}
 		}
 	}
 	else {
-
+		for (int i = 0; i < game.length(); i++)
+		{
+			afficher(game.cases_modifies[i].x, game.cases_modifies[i].y, pDC);
+		}
 	}
+
+	//game.clear_cases_modif();
 	
 	// Affichage du score
 	CString scoreText;
@@ -234,12 +241,6 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
 
-
-
-
-
-
-
 	switch (dir_pacman) {
 	case 0:
 		game.left(game.pacman);
@@ -327,4 +328,21 @@ BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 
 	return CView::PreTranslateMessage(pMsg);
 	
+}
+
+
+void CPacmanV1View::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+	/*
+	CDC* pDC = GetDC();
+	// TODO: ajoutez ici votre code spécialisé et/ou l'appel de la classe de base
+	for (int i = 0; i <= 20; i++) {
+		for (int j = 0; j <= 18; j++) {
+			afficher(i, j, pDC);
+			game.affich_tot = false;
+		}
+	}
+	Invalidate(); // Force le redessin de la vue
+	*/
 }

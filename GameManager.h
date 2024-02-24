@@ -49,8 +49,15 @@ public:
 
 	void GameManager::Game_reset(); // Une fois que Pacman est mort; perd une vie. 
 
-	bool GameManager::Collision_Entity(Entity entity1, Entity entity2);
+	bool GameManager::check_entity(Entity entity1, Entity entity2);
 	void GameManager::Move_fantome(); 
  
+	pos* cases_modifies;
+	int taille_tab_modif = 20;
+	bool tab_vide = true;
+	void GameManager::clear_cases_modif(); 
+	void GameManager::push(pos new_pos_modif);
+	int GameManager::length();
+	
 };
 

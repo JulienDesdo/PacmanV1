@@ -18,6 +18,7 @@ public:
 	GameManager game;
 	int dir_pacman; 
 	int square;
+	//matrix previous_graph;
 
 	void CPacmanV1View::afficher(int i, int j, CDC* pDC);
 
@@ -53,6 +54,7 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 //	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual void OnInitialUpdate();
 };
 
 #ifndef _DEBUG  // version Debug dans PacmanV1View.cpp
