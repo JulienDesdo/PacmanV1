@@ -7,6 +7,7 @@ class Entity
 public : 
 	pos position; // Entity position
 	float vitesse;
+	int dir; 
 	// Note : plusieurs vitesses permettent d'éviter d'avoir des timers. Surtout quand 
 	// pacman mange food : Pacman accelère et fantome ralentissent. 
 	Entity(pos pos_initiale,int ID);

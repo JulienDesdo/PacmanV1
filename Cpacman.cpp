@@ -8,8 +8,10 @@ Cpacman::Cpacman() : Entity(pos{ 15, 9 }, 2) { // on passe par là même pour pacm
 };
 
 Cpacman::Cpacman(pos pos_intiale) : Entity(pos_intiale, 2) { // Appel : Cpacman pacman(pos{x,y}); // 
+	/*
 	entity_id = 2; 
 	position = pos_intiale;
+	*/
 
 	life_nbr = 3;
 	power = 1;

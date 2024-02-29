@@ -18,7 +18,7 @@ public:
 	GameManager game;
 	int dir_pacman; 
 	int square;
-	//matrix previous_graph;
+	bool timer2_active = 0;
 
 	void CPacmanV1View::afficher(int i, int j, CDC* pDC);
 

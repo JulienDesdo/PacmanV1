@@ -4,11 +4,14 @@
 #include "pos.h"
 #include "Cpacman.h"
 #include "Cphantom.h"
+#include <afxwin.h>
 
-class GameManager
+
+class GameManager : public CWnd
 {
 public:
 	matrix graph;
+	
 	Cpacman pacman;
 	Cphantom Blinky; // fantome rouge;
 	Cphantom Inky;  // fantome cyan;
@@ -52,12 +55,6 @@ public:
 	bool GameManager::check_entity(Entity entity1, Entity entity2);
 	void GameManager::Move_fantome(); 
  
-	pos* cases_modifies;
-	int taille_tab_modif = 20;
-	bool tab_vide = true;
-	void GameManager::clear_cases_modif(); 
-	void GameManager::push(pos new_pos_modif);
-	int GameManager::length();
-	
+	void GameManager::maj_state(bool&);  // probleme : met en pause tout le programme...On veut juste que la variable val true pendant huit secondes. 
 };
 

@@ -41,8 +41,9 @@ CPacmanV1View::CPacmanV1View() noexcept
 {
 	// TODO: ajoutez ici du code de construction
 	GameManager game;
-	dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up 
+	//dir_pacman = 0; // 0 = left, 1=right, 2=down, 3=up 
 	square = 35;
+	timer2_active = 0;
 
 }
 
@@ -121,32 +122,11 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 		return;
 
 	// TODO: ajoutez ici le code de dessin pour les données natives
-
-
-	// pacman instancie le graph puisqu'il s'en sert comme attribut. => methode discutable
 	SetTimer(1, 375, NULL);
+	
 	//SetFocus();
-
-	
-	//game.Move_fantome();
 	
 
-	if (game.affich_tot) {
-		for (int i = 0; i <= 20; i++) {
-			for (int j = 0; j <= 18; j++) {
-				afficher(i, j, pDC);
-				
-			}
-		}
-	}
-	else {
-		for (int i = 0; i < game.length(); i++)
-		{
-			afficher(game.cases_modifies[i].x, game.cases_modifies[i].y, pDC);
-		}
-	}
-
-	//game.clear_cases_modif();
 	
 	// Affichage du score
 	CString scoreText;
@@ -240,27 +220,39 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
+	CDC* pDC = GetDC();
 
-	switch (dir_pacman) {
-	case 0:
-		game.left(game.pacman);
-		break;
-	case 1:
-		game.right(game.pacman);
-		break;
-	case 2:
-		game.down(game.pacman);
-		break;
-	case 3:
-		game.up(game.pacman);
-		break;
-	default:
-		break;
+	if (nIDEvent == 1) {
+		// Mouvement de Pacman
+		switch (game.pacman.dir) {
+		case 0:
+			game.left(game.pacman);
+			break;
+		case 1:
+			game.right(game.pacman);
+			break;
+		case 2:
+			game.down(game.pacman);
+			break;
+		case 3:
+			game.up(game.pacman);
+			break;
+		default:
+			break;
+		}
+
+		game.Move_fantome();
+		
+
+		if (game.affich_tot) { // affichage toutes les 375. 
+			for (int i = 0; i <= 20; i++) {
+				for (int j = 0; j <= 18; j++) {
+					afficher(i, j, pDC);
+				}
+			}
+		}
+		
 	}
-
-	
-	// Redessiner la vue
-	Invalidate(); 
 
 	CView::OnTimer(nIDEvent);
 }
@@ -305,23 +297,23 @@ BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 	if (pMsg->message == WM_KEYDOWN) {
 		if (X == VK_UP) {
 			//game.up();
-			if (!game.check_up(game.pacman)) dir_pacman = 3;
+			if (!game.check_up(game.pacman)) game.pacman.dir = 3;
 			//AfxMessageBox(L"UP !");
 			
 		}
 		else if (X == VK_DOWN) {
 			//game.down();
-			if (!game.check_down(game.pacman)) dir_pacman = 2;
+			if (!game.check_down(game.pacman)) game.pacman.dir = 2;
 			//AfxMessageBox(L"DOWN!");
 		}
 		else if (X == VK_LEFT) {
 			//game.left();
-			if (!game.check_left(game.pacman)) dir_pacman = 0; 
+			if (!game.check_left(game.pacman)) game.pacman.dir = 0;
 			//AfxMessageBox(L"LEFT!");
 		}
 		else if (X == VK_RIGHT) {
 			//game.right();
-			if (!game.check_right(game.pacman)) dir_pacman = 1;
+			if (!game.check_right(game.pacman)) game.pacman.dir = 1;
 			//AfxMessageBox(L"RIGHT");
 		}
 	}

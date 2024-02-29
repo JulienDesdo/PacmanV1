@@ -6,6 +6,7 @@ Entity::Entity() {
 	position.y = 0;
 	vitesse = 1;
 	entity_id = 0;
+	dir = 0; 
 }
 
 Entity::Entity(pos pos_initiale, int ID) { // pour changer l'endroit où pop pacman. 
@@ -13,6 +14,7 @@ Entity::Entity(pos pos_initiale, int ID) { // pour changer l'endroit où pop pacm
 	position.y = pos_initiale.y;
 	vitesse = 1;
 	entity_id = ID; 
+	dir = 0; 
 }
 
 Entity::~Entity() {
