@@ -174,12 +174,13 @@ void GameManager::Move_fantome() {
 		
 	}
 }
-
+/*
 void GameManager::maj_state(bool& variable) {
 	variable = 1; 
 	::Sleep(2000);
 	variable = 0; 
 }
+*/
 
 void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce à l'héritage de Entity pour les classes Cpacman et Cphantom notamment; on le place ici car il internvient dans les interactions du jeu
 	if (!check_collision(pos_new)) {
@@ -230,8 +231,8 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				nb_high_food_restantes -= 1;
 				// fantome deviennent vulnérables, et pacman prédateur pendant 8 secondes. 
 					// Changement de comportement des fantomes ---------------------------------------------------------------------------
-				//this->state_fantome = 1; 
-				maj_state(state_fantome);
+				this->state_fantome = 1; 
+				//maj_state(state_fantome);
 			}
 			else {
 				// Mise à jour du graphe 

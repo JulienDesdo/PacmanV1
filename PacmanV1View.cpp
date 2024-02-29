@@ -122,35 +122,10 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 		return;
 
 	// TODO: ajoutez ici le code de dessin pour les données natives
+	SetTimer(2, 8000, NULL); // avant exprès 
 	SetTimer(1, 375, NULL);
 	
 	//SetFocus();
-	
-
-	
-	// Affichage du score
-	CString scoreText;
-	scoreText.Format(_T("SCORE   %d"), game.pacman.score);
-	CFont font;
-	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
-	CFont* oldFont = pDC->SelectObject(&font);
-	pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
-	pDC->TextOutW(120, square*21, scoreText); // pDC->TextOutW(120, square*21, scoreText); 
-	pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
-
-	// Affichage des vies
-	CString livesText;
-	livesText.Format(_T("LIVES   %d"), game.pacman.life_nbr);
-	font.DeleteObject(); // Supprimer l'ancienne fonte
-	font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
-	oldFont = pDC->SelectObject(&font);
-	pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
-	pDC->TextOutW(30, square*21, livesText);
-	pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
-
-
 }
 
 
@@ -251,8 +226,36 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 				}
 			}
 		}
+
+		// Affichage du score
+		CString scoreText;
+		scoreText.Format(_T("SCORE   %d"), game.pacman.score);
+		CFont font;
+		font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+			CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+		CFont* oldFont = pDC->SelectObject(&font);
+		pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+		pDC->TextOutW(120, square * 21, scoreText); // pDC->TextOutW(120, square*21, scoreText); 
+		pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+
+		// Affichage des vies
+		CString livesText;
+		livesText.Format(_T("LIVES   %d"), game.pacman.life_nbr);
+		font.DeleteObject(); // Supprimer l'ancienne fonte
+		font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+			CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+		oldFont = pDC->SelectObject(&font);
+		pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+		pDC->TextOutW(30, square * 21, livesText);
+		pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 		
 	}
+	
+	if (nIDEvent == 2) {
+		game.state_fantome = 0;
+	}
+	
+	
 
 	CView::OnTimer(nIDEvent);
 }

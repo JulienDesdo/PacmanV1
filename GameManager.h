@@ -55,6 +55,6 @@ public:
 	bool GameManager::check_entity(Entity entity1, Entity entity2);
 	void GameManager::Move_fantome(); 
  
-	void GameManager::maj_state(bool&);  // probleme : met en pause tout le programme...On veut juste que la variable val true pendant huit secondes. 
+	//void GameManager::maj_state(bool&);  // probleme : met en pause tout le programme...On veut juste que la variable val true pendant huit secondes. 
 };
 
