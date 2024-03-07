@@ -121,71 +121,198 @@ bool GameManager::check_entity(Entity entity1, Entity entity2) {
 	if (entity1.position.x - entity2.position.x == 0 && entity1.position.y - entity2.position.y == 0) { // dx = 0 & dy = 0 
 		return true; 
 	}
-	/*
+	
 	else if (abs(entity1.position.x - entity2.position.x) == 0 && abs(entity1.position.y - entity2.position.y) == 1) { // dx = 0 & dy = 1
 		return true;
 	}
 	else if (abs(entity1.position.x - entity2.position.x) == 1 && abs(entity1.position.y - entity2.position.y) == 0) { // dx = 1 & dy = 0 
 		return true;
 	}
-	*/
+
 	else {
 		return false;
 	}
 }
 
+
+// Fonction pour le comportement de poursuite
+void GameManager::chasePacman() {
+	// Calculer la direction vers laquelle Blinky doit se déplacer pour attraper Pacman
+	int dx = pacman.position.x - Blinky.position.x;
+	int dy = pacman.position.y - Blinky.position.y;
+
+	// Choisissez la direction à privilégier pour attraper Pacman
+	if (abs(dx) > abs(dy)) {
+		// Priorité pour le déplacement horizontal
+		if (dx > 0 && !check_down(Blinky)) {
+			down(Blinky);
+		}
+		else if (dx < 0 && !check_up(Blinky)) {
+			up(Blinky);
+		}
+		else if (!check_left(Blinky)) {
+			left(Blinky);
+		}
+		else if (!check_right(Blinky)) {
+			right(Blinky);
+		}
+	}
+	else {
+		// Priorité pour le déplacement vertical
+		if (dy > 0 && !check_right(Blinky)) {
+			right(Blinky);
+		}
+		else if (dy < 0 && !check_left(Blinky)) {
+			left(Blinky);
+		}
+		else if (!check_up(Blinky)) {
+			up(Blinky);
+		}
+		else if (!check_down(Blinky)) {
+			down(Blinky);
+		}
+	}
+}
+
+// Fonction pour le comportement de fuite
+void GameManager::fleeFromPacman() {
+	// Calculer la direction pour fuir de Pacman (inverse de la logique de poursuite)
+	int dx = Blinky.position.x - pacman.position.x;
+	int dy = Blinky.position.y - pacman.position.y;
+
+	// Choisissez la direction à privilégier pour fuir de Pacman
+	if (abs(dx) > abs(dy)) {
+		// Priorité pour le déplacement horizontal
+		if (dx > 0 && !check_left(Blinky)) {
+			left(Blinky);
+		}
+		else if (dx < 0 && !check_right(Blinky)) {
+			right(Blinky);
+		}
+		else if (!check_up(Blinky)) {
+			up(Blinky);
+		}
+		else if (!check_down(Blinky)) {
+			down(Blinky);
+		}
+	}
+	else {
+		// Priorité pour le déplacement vertical
+		if (dy > 0 && !check_up(Blinky)) {
+			up(Blinky);
+		}
+		else if (dy < 0 && !check_down(Blinky)) {
+			down(Blinky);
+		}
+		else if (!check_left(Blinky)) {
+			left(Blinky);
+		}
+		else if (!check_right(Blinky)) {
+			right(Blinky);
+		}
+	}
+}
+
+// Fonction pour un comportement aléatoire
+void GameManager::randomMovement() {
+	int random_direction = rand() % 4; // Générer un nombre aléatoire entre 0 et 3 pour choisir une direction
+	switch (random_direction) {
+	case 0:
+		if (!check_up(Blinky)) {
+			up(Blinky);
+		}
+		break;
+	case 1:
+		if (!check_down(Blinky)) {
+			down(Blinky);
+		}
+		break;
+	case 2:
+		if (!check_left(Blinky)) {
+			left(Blinky);
+		}
+		break;
+	case 3:
+		if (!check_right(Blinky)) {
+			right(Blinky);
+		}
+		break;
+	}
+}
+
+void GameManager::patrol() { // Ne marche pas..........
+	// Définir une liste de points de patrouille prédéfinis
+	std::vector<Point> patrolPoints = { {3, 4}, {15, 4}, {15, 4}, {3, 14} };
+
+	// Calculer la distance à chaque point de patrouille
+	std::vector<double> distances;
+	for (const auto& point : patrolPoints) {
+		distances.push_back(std::sqrt(std::pow(Blinky.position.x - point.x, 2) + std::pow(Blinky.position.y - point.y, 2)));
+	}
+
+	// Trouver le point de patrouille le plus proche
+	double minDistance = DBL_MAX;
+
+	int closestPointIndex = 0;
+	for (int i = 0; i < distances.size(); ++i) {
+		if (distances[i] < minDistance) {
+			minDistance = distances[i];
+			closestPointIndex = i;
+		}
+	}
+
+	// Déplacer le fantôme vers le point de patrouille le plus proche
+	Point targetPoint = patrolPoints[closestPointIndex];
+	int dx = targetPoint.x - Blinky.position.x;
+	int dy = targetPoint.y - Blinky.position.y;
+
+	// Choisissez la direction à privilégier pour se déplacer vers le point de patrouille
+	if (std::abs(dx) > std::abs(dy)) {
+		if (dx > 0 && !check_right(Blinky)) {
+			right(Blinky);
+		}
+		else if (dx < 0 && !check_left(Blinky)) {
+			left(Blinky);
+		}
+		else if (!check_down(Blinky)) {
+			down(Blinky);
+		}
+		else if (!check_up(Blinky)) {
+			up(Blinky);
+		}
+	}
+	else {
+		if (dy > 0 && !check_down(Blinky)) {
+			down(Blinky);
+		}
+		else if (dy < 0 && !check_up(Blinky)) {
+			up(Blinky);
+		}
+		else if (!check_right(Blinky)) {
+			right(Blinky);
+		}
+		else if (!check_left(Blinky)) {
+			left(Blinky);
+		}
+	}
+}
+
 void GameManager::Move_fantome() {
-	if (state_fantome == 0) { // cas normal, les fantomes attaquent pacman. 
-
-		// Calculer la direction vers laquelle Blinky doit se déplacer pour attraper Pacman
-		int dx = pacman.position.x - Blinky.position.x;
-		int dy = pacman.position.y - Blinky.position.y;
-
-		// Choisissez la direction à privilégier pour attraper Pacman
-		if (abs(dx) > abs(dy))
-		{
-			// Priorité pour le déplacement horizontal
-			if (dx > 0 && !check_down(Blinky)) {
-				down(Blinky);
-			}
-			else if (dx < 0 && !check_up(Blinky)) {
-				up(Blinky);
-			}
-			else if (!check_left(Blinky)) {
-				left(Blinky);
-			}
-			else if (!check_right(Blinky)) {
-				right(Blinky);
-			}
-		}
-		else
-		{
-			// Priorité pour le déplacement vertical
-			if (dy > 0 && !check_right(Blinky)) {
-				right(Blinky);
-			}
-			else if (dy < 0 && !check_left(Blinky)) {
-				left(Blinky);
-			}
-			else if (!check_up(Blinky)) {
-				up(Blinky);
-			}
-			else if (!check_down(Blinky)) {
-				down(Blinky);
-			}
-		}
+	if (state_fantome == 0) {
+		// Cas normal, les fantômes attaquent Pacman
+		//chasePacman();
+		chasePacman();
 	}
-	else { // cas fantomes deviennent bleu, sont vulnérables, changent de comportements. 
-		
+	else if (state_fantome == 1) {
+		// Cas où les fantômes deviennent bleus, sont vulnérables, comportement de fuite
+		fleeFromPacman();
 	}
+	else {
+		// Cas où les fantômes sont dans un état aléatoire
+		randomMovement();
+	}
+
 }
-/*
-void GameManager::maj_state(bool& variable) {
-	variable = 1; 
-	::Sleep(2000);
-	variable = 0; 
-}
-*/
 
 void GameManager::Respawn_Entity(Entity entity) {
 	
@@ -228,11 +355,23 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 
 			if (pos_new.x == 9 && pos_new.y == 18) { // !! ATTENTION les phantomes sont aussi concernés et n'ont pas de dir, donc implementer dir + faire passer classe.
 				// move pacman to 9,0 sans changement de dir
+				// Mise à jour du graphe 
+				this->graph.set_value(9, 0, entity.entity_id);
+				this->graph.set_value(entity.position.x, entity.position.y, 0);
+				// Mise à jour de pacman 
+				this->pacman.set_pos_entity(pos{ 9,0 });
 			}
 			else if (pos_new.x == 9 && pos_new.y == 0) {
 				// move pacman to 9,18 avec changement de dir
+
+				// Mise à jour du graphe 
+				this->graph.set_value(9, 18, entity.entity_id);
+				this->graph.set_value(entity.position.x, entity.position.y, 0);
+				// Mise à jour de pacman 
+				this->pacman.set_pos_entity(pos{9,18});
+				
 			}
-			else if  ((check_entity(pacman, Blinky) || check_entity(pacman, Inky) || check_entity(pacman, Pinky) || check_entity(pacman, Clyde)) && state_fantome == 0) {
+			else if ((check_entity(pacman, Blinky) || check_entity(pacman, Inky) || check_entity(pacman, Pinky) || check_entity(pacman, Clyde)) && state_fantome == 0) {
 				Game_reset();
 			}
 			else if (check_basic_food(pos_new)) {
@@ -287,13 +426,13 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 
 		}
 
-
+		
 
 
 		// CAS FANTOMES
 
 		else if (entity.entity_id == 4 || entity.entity_id == 5 || entity.entity_id == 6 || entity.entity_id == 7) { 
-			int value = entity.entity_id + graph.get_value(pos_new.x, pos_new.y);
+			//int value = entity.entity_id + graph.get_value(pos_new.x, pos_new.y);
 			switch (entity.entity_id + graph.get_value(pos_new.x, pos_new.y)) { 
 			case 4: // cas blinky sur vide  4 = 4 + 0 
 				this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);

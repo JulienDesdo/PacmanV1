@@ -6,6 +6,17 @@
 #include "Cphantom.h"
 #include <afxwin.h>
 
+#include <vector>
+#include <cmath> // Pour sqrt et pow
+#include <limits>
+#include <cfloat> // Pour DBL_MAX
+
+
+struct Point {
+	int x;
+	int y;
+};
+
 
 class GameManager : public CWnd
 {
@@ -66,6 +77,12 @@ public:
 
 	void GameManager::Respawn_Entity(Entity entity);
 	void GameManager::maj_level(int level);
+
+	// Comportement fantomes.
+	void GameManager::chasePacman();
+	void GameManager::fleeFromPacman();
+	void GameManager::randomMovement();
+	void GameManager::patrol();
 
 };
 

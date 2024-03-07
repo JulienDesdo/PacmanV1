@@ -260,6 +260,7 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 
 	if (nIDEvent == 1) {
 		if (game.horloge > int(250/16)) { // 250/16 = 15.6
+	
 			// Mouvement de Pacman
 			switch (game.pacman.dir) {
 			case 0:
@@ -277,8 +278,9 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 			default:
 				break;
 			}
-			game.horloge = 0;
 			game.Move_fantome();
+			game.horloge = 0;
+			// Collision pacman avec un phantome.
 			// re-initialisation s'il n'y plus de nourriture. sous certaines conditions 
 			game.reset_food();
 		}
