@@ -24,8 +24,13 @@ public:
 	int nb_basic_food_restantes = 146; // Normalement 146 sur la map intiale
 	int nb_high_food_restantes = 4; // Normalement 4 sur la map intiale 
 
-	bool state_fantome = 0; // 0 = Phantome attack ; 1 = Phantome vulnérable et pacman attack.  
-	bool affich_tot = 0; 
+	bool state_fantome = 0; // 0 = Phantome attack ; 1 = Phantome vulnérable et pacman attack. 
+	int temps_vulnerable = 8000; // 8000 = 8 secondes
+	int nb_high_food_ingere = 0;
+
+	bool affich_tot = 0;
+	
+	bool admin = 1; // commande administrateur pour voir des données en plus. 
 
 	int lvl; 
 	GameManager();
@@ -56,5 +61,11 @@ public:
 	void GameManager::Move_fantome(); 
  
 	//void GameManager::maj_state(bool&);  // probleme : met en pause tout le programme...On veut juste que la variable val true pendant huit secondes. 
+	int horloge;
+	int horloge_ghost;
+
+	void GameManager::Respawn_Entity(Entity entity);
+	void GameManager::maj_level(int level);
+
 };
 

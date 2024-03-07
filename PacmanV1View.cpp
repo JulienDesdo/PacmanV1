@@ -63,54 +63,108 @@ void CPacmanV1View::afficher(int i, int j, CDC* pDC){
 	CRect rect(j * square, i * square, (j + 1) * square, (i + 1) * square); // car (x,y) inversé par rapport à la matrice. Matrix: x lignes matrices; y colonnes matrices.
 	CRect smallFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 2.3, rect.top + square / 2.3);
 	CRect bigFoodRect(rect.left + square / 4, rect.top + square / 4, rect.left + square / 1.4, rect.top + square / 1.4);
+	
+	if (game.state_fantome == 0) {
+		switch (game.graph.get_value(i, j))
+		{
+		case 0: // vide (rectangle noir) 
+			pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+			break;
 
-	switch (game.graph.get_value(i, j))
-	{
-	case 0: // vide (rectangle noir) 
-		pDC->FillSolidRect(&rect, RGB(0, 0, 0));
-		break;
+		case 1: // block (rectangle bleu) 
+			pDC->FillSolidRect(&rect, RGB(0, 0, 255));
 
-	case 1: // block (rectangle bleu) 
-		pDC->FillSolidRect(&rect, RGB(0, 0, 255));
-		break;
-	case 2: // pacman (rectangle jaune)
-		pDC->FillSolidRect(&rect, RGB(255, 255, 0));
-		break;
-	case 3:
-		pDC->FillSolidRect(&rect, RGB(158, 158, 158)); // phantom par défaut, gris
-		break;
-	case 4:
-		pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
-		break;
-	case 14:
-		pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
-		break;
-	case 24:
-		pDC->FillSolidRect(&rect, RGB(255, 0, 0)); // phantom Blinky (rectangle rouge)
-		break;
-	case 5:
-		pDC->FillSolidRect(&rect, RGB(0, 255, 255)); // phantom Inky (rectangle cyan)
-		break;
-	case 6:
-		pDC->FillSolidRect(&rect, RGB(253, 108, 158)); // phantom Pinky (rectangle rose) 
-		break;
-	case 7:
-		pDC->FillSolidRect(&rect, RGB(255, 69, 0)); // phantom Clyde (rectangle orange)
-		break;
-	case 10: // case de la nourriture petite 
-		pDC->FillSolidRect(&rect, RGB(0, 0, 0));
-		pDC->FillSolidRect(&smallFoodRect, RGB(255, 255, 255)); // Rectangle blanc
-		break;
+			break;
+		case 2: // pacman (rectangle jaune)
+			pDC->FillSolidRect(&rect, RGB(255, 255, 0));
+			break;
+		case 3:
+			pDC->FillSolidRect(&rect, RGB(158, 158, 158)); // phantom par défaut, gris
+			break;
+		case 4:
+		case 14 : 
+		case 24 : 
+			pDC->FillSolidRect(&rect, RGB(255,0,0)); // phantom Blinky (rectangle rouge)
+			break;
+		case 5:
+		case 15 : 
+		case 25 : 
+			pDC->FillSolidRect(&rect, RGB(0, 255, 255)); // phantom Inky (rectangle cyan)
+			break;
+		case 6:
+		case 16 : 
+		case 26 : 
+			pDC->FillSolidRect(&rect, RGB(253, 108, 158)); // phantom Pinky (rectangle rose) 
+			break;
+		case 7:
+		case 17 : 
+		case 27 : 
+			pDC->FillSolidRect(&rect, RGB(255, 69, 0)); // phantom Clyde (rectangle orange)
+			break;
+		case 10: // case de la nourriture petite 
+			pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+			pDC->FillSolidRect(&smallFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+			break;
+		case 20: // case de la grosse nourriture
+			pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+			pDC->FillSolidRect(&bigFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+			break;
 
-	case 20: // case de la grosse nourriture
-		pDC->FillSolidRect(&rect, RGB(0, 0, 0));
-		pDC->FillSolidRect(&bigFoodRect, RGB(255, 255, 255)); // Rectangle blanc
-		break;
-
-	default:
-		break;
+		default:
+			break;
+		}
 	}
+	else if (game.state_fantome == 1) {
+		switch (game.graph.get_value(i, j))
+		{
+		case 0: // vide (rectangle noir) 
+			pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+			break;
 
+		case 1: // block (rectangle bleu) 
+			pDC->FillSolidRect(&rect, RGB(0, 0, 255));
+			break;
+		case 2: // pacman (rectangle jaune)
+			pDC->FillSolidRect(&rect, RGB(255, 255, 0));
+			break;
+		case 3:
+			pDC->FillSolidRect(&rect, RGB(158, 158, 158)); // phantom par défaut, gris
+			break;
+		case 4:
+		case 14:
+		case 24:
+			pDC->FillSolidRect(&rect, RGB(0, 0, 200)); // phantom Blinky (rectangle rouge)
+			break;
+		case 5:
+		case 15: 
+		case 25:
+			pDC->FillSolidRect(&rect, RGB(0, 0, 200)); // phantom Inky (rectangle cyan)
+			break;
+		case 6:
+		case 16:
+		case 26:
+			pDC->FillSolidRect(&rect, RGB(0, 0, 200)); // phantom Pinky (rectangle rose) 
+			break;
+		case 7:
+		case 17:
+		case 27:
+			pDC->FillSolidRect(&rect, RGB(0, 0, 200)); // phantom Clyde (rectangle orange)
+			break;
+		case 10: // case de la nourriture petite 
+			pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+			pDC->FillSolidRect(&smallFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+			break;
+
+		case 20: // case de la grosse nourriture
+			pDC->FillSolidRect(&rect, RGB(0, 0, 0));
+			pDC->FillSolidRect(&bigFoodRect, RGB(255, 255, 255)); // Rectangle blanc
+			break;
+
+		default:
+			break;
+		}
+
+	}
 
 }
 
@@ -121,9 +175,16 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
+	// OnDraw n'est pas une boucle, ce sont les Timers qui sont des boucles.
+	// OnDraw est une boucle d'affichage si jamais il n'y aucun timer. 
+
 	// TODO: ajoutez ici le code de dessin pour les données natives
-	SetTimer(2, 8000, NULL); // avant exprès 
-	SetTimer(1, 375, NULL);
+
+	//SetTimer(3, 400, NULL); // timer fantomes -> NON car sinon probleme decompte nourriture... si on met MoveFantom dedans.  
+	//SetTimer(1, 250, NULL); // 375 timer pacman
+	SetTimer(1, 16, NULL); // 60 FPS rafraichissement. = int(1000/60) = 16. 
+	
+	
 	
 	//SetFocus();
 }
@@ -198,25 +259,43 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 	CDC* pDC = GetDC();
 
 	if (nIDEvent == 1) {
-		// Mouvement de Pacman
-		switch (game.pacman.dir) {
-		case 0:
-			game.left(game.pacman);
-			break;
-		case 1:
-			game.right(game.pacman);
-			break;
-		case 2:
-			game.down(game.pacman);
-			break;
-		case 3:
-			game.up(game.pacman);
-			break;
-		default:
-			break;
+		if (game.horloge > int(250/16)) { // 250/16 = 15.6
+			// Mouvement de Pacman
+			switch (game.pacman.dir) {
+			case 0:
+				game.left(game.pacman);
+				break;
+			case 1:
+				game.right(game.pacman);
+				break;
+			case 2:
+				game.down(game.pacman);
+				break;
+			case 3:
+				game.up(game.pacman);
+				break;
+			default:
+				break;
+			}
+			game.horloge = 0;
+			game.Move_fantome();
+			// re-initialisation s'il n'y plus de nourriture. sous certaines conditions 
+			game.reset_food();
 		}
 
-		game.Move_fantome();
+		game.horloge += 1; // incrémentation de l'horloge du jeu à chaque passage dans timer tous les 16. (= 60 FPS)
+
+		if (game.nb_high_food_ingere >= 1) {
+			game.horloge_ghost += 1;
+		}
+
+		if (game.horloge_ghost > int(game.temps_vulnerable/16)) { // 8000 / 16 = 8 secondes / 16 = 500. 
+			game.horloge_ghost = 0;
+			if (game.nb_high_food_ingere == 1) {
+				game.state_fantome = 0; 
+			}
+			game.nb_high_food_ingere -= 1; 
+		}
 		
 
 		if (game.affich_tot) { // affichage toutes les 375. 
@@ -229,7 +308,7 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 
 		// Affichage du score
 		CString scoreText;
-		scoreText.Format(_T("SCORE   %d"), game.pacman.score);
+		scoreText.Format(_T("SCORE   %d"), game.pacman.score); // game.pacman.score
 		CFont font;
 		font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
 			CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
@@ -240,7 +319,7 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 
 		// Affichage des vies
 		CString livesText;
-		livesText.Format(_T("LIVES   %d"), game.pacman.life_nbr);
+		livesText.Format(_T("LIVES   %d"), game.pacman.life_nbr); // game.pacman.life_nbr
 		font.DeleteObject(); // Supprimer l'ancienne fonte
 		font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
 			CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
@@ -249,14 +328,72 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 		pDC->TextOutW(30, square * 21, livesText);
 		pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 		
-	}
-	
-	if (nIDEvent == 2) {
-		game.state_fantome = 0;
-	}
-	
-	
 
+
+		// Cas interface admin activée. 
+
+		if (game.admin) {
+				// Affichage variable1 
+				CString scoreText;
+				scoreText.Format(_T("ADMIN, nb_basic_food_restantes   %d"), game.nb_basic_food_restantes); // game.pacman.score
+				CFont font;
+				font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+					CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+				CFont* oldFont = pDC->SelectObject(&font);
+				pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+				pDC->TextOutW(330, square * 22, scoreText); // pDC->TextOutW(120, square*21, scoreText); 
+				pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+
+				// Affichage variable2
+				CString livesText;
+				livesText.Format(_T("ADMIN, nb_high_food_restantes  %d"), game.nb_high_food_restantes); // game.pacman.life_nbr
+				font.DeleteObject(); // Supprimer l'ancienne fonte
+				font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+					CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+				oldFont = pDC->SelectObject(&font);
+				pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+				pDC->TextOutW(30, square * 22, livesText);
+				pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+
+				// Affichage de la matrice brute. METTRE COULEUR POUR LISIBILITE DE L ADMIN 
+			
+				if (game.affich_tot) { 
+					for (int i = 0; i <= 20; i++) {
+						for (int j = 0; j <= 18; j++) {
+
+							CString val_matrice;
+							val_matrice.Format(_T(" %d"), game.graph.get_value(i, j)); // game.pacman.life_nbr
+							font.DeleteObject(); // Supprimer l'ancienne fonte
+							font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+								CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+							oldFont = pDC->SelectObject(&font);
+
+							if (game.graph.get_value(i, j) == 2) {
+								pDC->SetTextColor(RGB(255, 255, 0)); 
+							}
+							else if (game.graph.get_value(i, j) == 4 || game.graph.get_value(i, j) == 14 || game.graph.get_value(i, j) == 24) {
+								pDC->SetTextColor(RGB(255, 0, 0)); // Mettre la couleur en blanc
+							}
+							else if (game.graph.get_value(i, j) == 1) {
+								pDC->SetTextColor(RGB(0, 0, 0)); // Mettre la couleur en blanc
+							}
+							else {	
+								pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+							}
+
+							pDC->TextOutW(700 + square * j, 20 + square * i, val_matrice);
+							pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+							
+							
+						}
+					}
+				}
+		}
+
+
+
+
+	}
 	CView::OnTimer(nIDEvent);
 }
 

@@ -7,6 +7,9 @@ GameManager::GameManager() {
 	init_food(); 
 	lvl = 0;
 
+	horloge = 0;
+	horloge_ghost = 0;
+
 	affich_tot = true;
 
 
@@ -45,27 +48,11 @@ void GameManager::Game_reset() {
 	if (pacman.life_nbr > 0) {
 		pacman.life_nbr -= 1;
 		
-		graph.set_value(Blinky.position.x, Blinky.position.y, 0);
-		Blinky.position = pos{ 7,9 }; 
-		graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id);
-		
-	
-		graph.set_value(Inky.position.x, Inky.position.y, 0);
-		Inky.position = pos{ 9,8 };
-		graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
-
-		graph.set_value(Pinky.position.x, Pinky.position.y, 0);
-		Pinky.position = pos{ 9,9 };
-		graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
-		
-
-		graph.set_value(Clyde.position.x, Clyde.position.y, 0);
-		Clyde.position = pos{ 9,10 };
-		graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
-
-		graph.set_value(pacman.position.x, pacman.position.y, 0);
-		pacman.position = pos{ 15,9 };
-		graph.set_value(pacman.position.x, pacman.position.y, pacman.entity_id);
+		Respawn_Entity(pacman); 
+		Respawn_Entity(Blinky);
+		Respawn_Entity(Inky);
+		Respawn_Entity(Pinky);
+		Respawn_Entity(Clyde);
 
 	}
 	else {
@@ -74,7 +61,7 @@ void GameManager::Game_reset() {
 		init_food();
 		lvl = 0;
 		pacman.score = 0; 
-		pacman.life_nbr = 3; 
+		pacman.life_nbr = 3;
 
 		Blinky.position = pos{ 7,9 };
 		graph.set_value(7, 9, Blinky.entity_id);
@@ -87,16 +74,32 @@ void GameManager::Game_reset() {
 		pacman.position = pos{ 15,9 };
 		graph.set_value(15, 9, pacman.entity_id);
 	}
+
+	this->horloge = 0; 
+	this->horloge_ghost = 0; 
 }
 
 void GameManager::reset_food() {
 	if (nb_basic_food_restantes <= 0 && nb_high_food_restantes <= 0) {
 		init_food();
-		nb_basic_food_restantes = 146;
-		nb_high_food_restantes = 4;
+		nb_basic_food_restantes = 146; // 146 
+		nb_high_food_restantes = 4; // 4 
 		lvl += 1; // le niveau permettra d'ajuster la difficulté du comportement des fantomes (vitesse, type d'algo), d'ajouter des powers spéciales
 		// Donc ajouter ici une fonction MAJ_game_level()
 	}
+}
+
+void GameManager::maj_level(int level) {
+	if (lvl == 1) { // Rendre un deuxième fantome actif
+
+	}
+	else if (lvl == 2) { // Rendre un troisieme fantome actif
+
+	}
+	else if (lvl == 3) { // Rendre quatrieme fantome actif
+
+	}
+
 }
 
 bool GameManager::check_collision(pos pos_new) {
@@ -116,14 +119,16 @@ bool GameManager::check_high_food(pos pos_new) {
 
 bool GameManager::check_entity(Entity entity1, Entity entity2) {
 	if (entity1.position.x - entity2.position.x == 0 && entity1.position.y - entity2.position.y == 0) { // dx = 0 & dy = 0 
-		return true; // probleme cas de la case blanche. 
+		return true; 
 	}
+	/*
 	else if (abs(entity1.position.x - entity2.position.x) == 0 && abs(entity1.position.y - entity2.position.y) == 1) { // dx = 0 & dy = 1
 		return true;
 	}
 	else if (abs(entity1.position.x - entity2.position.x) == 1 && abs(entity1.position.y - entity2.position.y) == 0) { // dx = 1 & dy = 0 
 		return true;
 	}
+	*/
 	else {
 		return false;
 	}
@@ -182,10 +187,43 @@ void GameManager::maj_state(bool& variable) {
 }
 */
 
+void GameManager::Respawn_Entity(Entity entity) {
+	
+	if (entity.entity_id == 2) { // Pacman 
+		graph.set_value(pacman.position.x, pacman.position.y, graph.get_value(pacman.position.x, pacman.position.y) - 2);
+		//graph.set_value(pacman.position.x, pacman.position.y, 0);
+		pacman.position = pos{ 15,9 };
+		graph.set_value(pacman.position.x, pacman.position.y, pacman.entity_id);
+	}
+	else if (entity.entity_id == 4) { // Blinky 
+		
+		graph.set_value(Blinky.position.x, Blinky.position.y, graph.get_value(Blinky.position.x, Blinky.position.y) - 4);
+		//graph.set_value(Blinky.position.x, Blinky.position.y, 0);
+		Blinky.position = pos{ 7,9 };
+		graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id);
+	}
+	else if (entity.entity_id == 5) { // Inky 
+		graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
+		Inky.position = pos{ 9,8 };
+		graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
+	}
+	else if (entity.entity_id == 6) { // Pinky
+		graph.set_value(Pinky.position.x, Pinky.position.y, graph.get_value(Pinky.position.x, Pinky.position.y) - 6);
+		Pinky.position = pos{ 9,9 };
+		graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
+	}
+	else if (entity.entity_id == 7) { // Clyde
+		graph.set_value(Clyde.position.x, Clyde.position.y, graph.get_value(Clyde.position.x, Clyde.position.y) - 7);
+		Clyde.position = pos{ 9,10 };
+		graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
+	}
+}
+
 void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce à l'héritage de Entity pour les classes Cpacman et Cphantom notamment; on le place ici car il internvient dans les interactions du jeu
 	if (!check_collision(pos_new)) {
 
 		// CAS PACMAN 
+
 		if (entity.entity_id == 2) {
 
 			if (pos_new.x == 9 && pos_new.y == 18) { // !! ATTENTION les phantomes sont aussi concernés et n'ont pas de dir, donc implementer dir + faire passer classe.
@@ -196,19 +234,6 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 			}
 			else if  ((check_entity(pacman, Blinky) || check_entity(pacman, Inky) || check_entity(pacman, Pinky) || check_entity(pacman, Clyde)) && state_fantome == 0) {
 				Game_reset();
-			}
-			else if (check_entity(Blinky, pacman) && state_fantome == 1) { // cas où pacman mange fantome 
-				pacman.score += 200;
-			}
-			else if (check_entity(pacman, Inky) && state_fantome == 1) { // cas où pacman mange fantome 
-				pacman.score += 200;
-			}
-			else if (check_entity(pacman, Pinky) && state_fantome == 1) { // cas où pacman mange fantome 
-				pacman.score += 200;
-			}
-			else if (check_entity(pacman, Clyde) && state_fantome == 1) { // cas où pacman mange fantome
-
-				pacman.score += 200;
 			}
 			else if (check_basic_food(pos_new)) {
 				// Mise à jour du graphe 
@@ -229,10 +254,10 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				// Mise à jour des variables 
 				pacman.score += 50;
 				nb_high_food_restantes -= 1;
-				// fantome deviennent vulnérables, et pacman prédateur pendant 8 secondes. 
-					// Changement de comportement des fantomes ---------------------------------------------------------------------------
+
+				// fantome deviennent vulnérables, et pacman prédateur pendant 8 secondes : 
 				this->state_fantome = 1; 
-				//maj_state(state_fantome);
+				this->nb_high_food_ingere += 1; // Nombre de high food ingéré simultanément. 
 			}
 			else {
 				// Mise à jour du graphe 
@@ -242,10 +267,31 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				this->pacman.set_pos_entity(pos_new);
 			}
 
-			// re-initialisation s'il n'y plus de nourriture. 
-			reset_food(); // passage temporaire de affich_tot à TRUE 
+			// Cas où pacman rencontre un fantome en plus de la nourriture. (state_fantome == 1) 
+			if (check_entity(Blinky, pacman) && state_fantome == 1) { // cas où pacman mange fantome 
+				pacman.score += 200;
+				Respawn_Entity(Blinky);
+			}
+			else if (check_entity(pacman, Inky) && state_fantome == 1) { // cas où pacman mange fantome 
+				pacman.score += 200;
+				Respawn_Entity(Inky);
+			}
+			else if (check_entity(pacman, Pinky) && state_fantome == 1) { // cas où pacman mange fantome 
+				pacman.score += 200;
+				Respawn_Entity(Pinky);
+			}
+			else if (check_entity(pacman, Clyde) && state_fantome == 1) { // cas où pacman mange fantome
+				pacman.score += 200;
+				Respawn_Entity(Clyde);
+			}
+
 		}
+
+
+
+
 		// CAS FANTOMES
+
 		else if (entity.entity_id == 4 || entity.entity_id == 5 || entity.entity_id == 6 || entity.entity_id == 7) { 
 			int value = entity.entity_id + graph.get_value(pos_new.x, pos_new.y);
 			switch (entity.entity_id + graph.get_value(pos_new.x, pos_new.y)) { 
@@ -253,7 +299,6 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
 				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 4); // get_value vaut 4,14,24 selon la nourriture qui était présente. Avec la soustraction : 0 (vide), 10 (basic_food), 20 (high_food)
 				this->Blinky.set_pos_entity(pos_new);
-				
 				break;
 			case 5:
 				this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
@@ -317,6 +362,12 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 		}
 	}
 }
+
+
+
+
+
+
 
 
 
