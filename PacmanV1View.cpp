@@ -374,13 +374,22 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 								pDC->SetTextColor(RGB(255, 255, 0)); 
 							}
 							else if (game.graph.get_value(i, j) == 4 || game.graph.get_value(i, j) == 14 || game.graph.get_value(i, j) == 24) {
-								pDC->SetTextColor(RGB(255, 0, 0)); // Mettre la couleur en blanc
+								pDC->SetTextColor(RGB(255, 0, 0)); 
+							}
+							else if (game.graph.get_value(i, j) == 5 || game.graph.get_value(i, j) == 15 || game.graph.get_value(i, j) == 25) {
+								pDC->SetTextColor(RGB(0, 255, 255)); 
+							}
+							else if (game.graph.get_value(i, j) == 6 || game.graph.get_value(i, j) == 16 || game.graph.get_value(i, j) == 26) {
+								pDC->SetTextColor(RGB(253, 108, 153));
+							}
+							else if (game.graph.get_value(i, j) == 7 || game.graph.get_value(i, j) == 17 || game.graph.get_value(i, j) == 27) {
+								pDC->SetTextColor(RGB(255, 69, 0));
 							}
 							else if (game.graph.get_value(i, j) == 1) {
-								pDC->SetTextColor(RGB(0, 0, 0)); // Mettre la couleur en blanc
+								pDC->SetTextColor(RGB(0, 0, 0)); 
 							}
 							else {	
-								pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+								pDC->SetTextColor(RGB(255, 255, 255)); 
 							}
 
 							pDC->TextOutW(700 + square * j, 20 + square * i, val_matrice);
@@ -391,9 +400,6 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 					}
 				}
 		}
-
-
-
 
 	}
 	CView::OnTimer(nIDEvent);

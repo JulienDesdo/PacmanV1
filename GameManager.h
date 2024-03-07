@@ -76,13 +76,19 @@ public:
 	int horloge_ghost;
 
 	void GameManager::Respawn_Entity(Entity entity);
-	void GameManager::maj_level(int level);
+	void GameManager::maj_level();
 
 	// Comportement fantomes.
-	void GameManager::chasePacman();
-	void GameManager::fleeFromPacman();
-	void GameManager::randomMovement();
-	void GameManager::patrol();
+	void GameManager::chasePacman(Entity entity);
+	void GameManager::fleeFromPacman(Entity entity);
+	void GameManager::randomMovement(Entity entity);
+	void GameManager::patrol(Entity entity);
+
+	void GameManager::actu_nourriture_restante();
+	int count_low_food; 
+	int count_high_food;
+
+	void GameManager::secure(); // Pour eviter valeurs négatives. 
 
 };
 

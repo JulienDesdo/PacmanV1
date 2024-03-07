@@ -23,6 +23,7 @@ GameManager::GameManager() {
 	Cphantom Blinky(pos{ 7,9 }, 4); 
 	this->Blinky = Blinky; // Rouge
 	graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id); // mise à jour de la présence du phantom sur le graphe. 
+	this->Blinky.inactif = false; 
 
 	// Inky 
 	Cphantom Inky(pos{ 9,8 }, 5);
@@ -38,6 +39,13 @@ GameManager::GameManager() {
 	Cphantom Clyde(pos{ 9,10 }, 7);
 	this->Clyde = Clyde; // Orange 
 	graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id); 
+
+	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
+	Respawn_Entity(Inky);
+	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
+	Respawn_Entity(Pinky);
+	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
+	Respawn_Entity(Clyde);
 
 }
 
@@ -65,12 +73,16 @@ void GameManager::Game_reset() {
 
 		Blinky.position = pos{ 7,9 };
 		graph.set_value(7, 9, Blinky.entity_id);
+		this->Blinky.inactif = false;
 		Inky.position = pos{ 9,8 };
 		graph.set_value(9, 8, Inky.entity_id);
+		this->Inky.inactif = true;
 		Pinky.position = pos{ 9,9 };
 		graph.set_value(9, 9, Pinky.entity_id);
+		this->Pinky.inactif = true;
 		Clyde.position = pos{ 9,10 };
 		graph.set_value(9, 10, Clyde.entity_id);
+		this->Clyde.inactif = true;
 		pacman.position = pos{ 15,9 };
 		graph.set_value(15, 9, pacman.entity_id);
 	}
@@ -84,20 +96,50 @@ void GameManager::reset_food() {
 		init_food();
 		nb_basic_food_restantes = 146; // 146 
 		nb_high_food_restantes = 4; // 4 
-		lvl += 1; // le niveau permettra d'ajuster la difficulté du comportement des fantomes (vitesse, type d'algo), d'ajouter des powers spéciales
-		// Donc ajouter ici une fonction MAJ_game_level()
+		maj_level();
 	}
 }
 
-void GameManager::maj_level(int level) {
-	if (lvl == 1) { // Rendre un deuxième fantome actif
+void GameManager::actu_nourriture_restante() { // + securité valeurs négatives dûes aux valeurs de collisions. (mis ici pour éviter un trop grand ralentissement). 
+	count_low_food = 0; 
+	count_high_food = 0; 
+	for (int i = 0; i <= 20; i++) {
+		for (int j = 0; j <= 18; j++) {
+			if (graph.get_value(i, j) >= 10 && graph.get_value(i, j) < 20) {
+				count_low_food += 1;
+			}
+			else if (graph.get_value(i, j) >= 20) {
+				count_high_food += 1; 
+			}
+		}
+	}
+	nb_basic_food_restantes = count_low_food; 
+	nb_high_food_restantes = count_high_food; 
+}
 
+void GameManager::secure() {
+	for (int i = 0; i <= 20; i++) {
+		for (int j = 0; j <= 18; j++) {
+			if (graph.get_value(i, j) < 0) {
+				graph.set_value(i, j, 0);
+			}
+			if ((i == 9 && (j == 0 || j == 18)) && graph.get_value(i,j) != 0) {
+				graph.set_value(i, j, 0);
+			}
+		}
+	}
+}
+
+void GameManager::maj_level() {
+	lvl += 1;
+	if (lvl == 1) { // Rendre un deuxième fantome actif
+		this->Inky.inactif = false;
 	}
 	else if (lvl == 2) { // Rendre un troisieme fantome actif
-
+		this->Pinky.inactif = false;
 	}
 	else if (lvl == 3) { // Rendre quatrieme fantome actif
-
+		this->Clyde.inactif = false;
 	}
 
 }
@@ -134,184 +176,22 @@ bool GameManager::check_entity(Entity entity1, Entity entity2) {
 	}
 }
 
-
-// Fonction pour le comportement de poursuite
-void GameManager::chasePacman() {
-	// Calculer la direction vers laquelle Blinky doit se déplacer pour attraper Pacman
-	int dx = pacman.position.x - Blinky.position.x;
-	int dy = pacman.position.y - Blinky.position.y;
-
-	// Choisissez la direction à privilégier pour attraper Pacman
-	if (abs(dx) > abs(dy)) {
-		// Priorité pour le déplacement horizontal
-		if (dx > 0 && !check_down(Blinky)) {
-			down(Blinky);
-		}
-		else if (dx < 0 && !check_up(Blinky)) {
-			up(Blinky);
-		}
-		else if (!check_left(Blinky)) {
-			left(Blinky);
-		}
-		else if (!check_right(Blinky)) {
-			right(Blinky);
-		}
-	}
-	else {
-		// Priorité pour le déplacement vertical
-		if (dy > 0 && !check_right(Blinky)) {
-			right(Blinky);
-		}
-		else if (dy < 0 && !check_left(Blinky)) {
-			left(Blinky);
-		}
-		else if (!check_up(Blinky)) {
-			up(Blinky);
-		}
-		else if (!check_down(Blinky)) {
-			down(Blinky);
-		}
-	}
-}
-
-// Fonction pour le comportement de fuite
-void GameManager::fleeFromPacman() {
-	// Calculer la direction pour fuir de Pacman (inverse de la logique de poursuite)
-	int dx = Blinky.position.x - pacman.position.x;
-	int dy = Blinky.position.y - pacman.position.y;
-
-	// Choisissez la direction à privilégier pour fuir de Pacman
-	if (abs(dx) > abs(dy)) {
-		// Priorité pour le déplacement horizontal
-		if (dx > 0 && !check_left(Blinky)) {
-			left(Blinky);
-		}
-		else if (dx < 0 && !check_right(Blinky)) {
-			right(Blinky);
-		}
-		else if (!check_up(Blinky)) {
-			up(Blinky);
-		}
-		else if (!check_down(Blinky)) {
-			down(Blinky);
-		}
-	}
-	else {
-		// Priorité pour le déplacement vertical
-		if (dy > 0 && !check_up(Blinky)) {
-			up(Blinky);
-		}
-		else if (dy < 0 && !check_down(Blinky)) {
-			down(Blinky);
-		}
-		else if (!check_left(Blinky)) {
-			left(Blinky);
-		}
-		else if (!check_right(Blinky)) {
-			right(Blinky);
-		}
-	}
-}
-
-// Fonction pour un comportement aléatoire
-void GameManager::randomMovement() {
-	int random_direction = rand() % 4; // Générer un nombre aléatoire entre 0 et 3 pour choisir une direction
-	switch (random_direction) {
-	case 0:
-		if (!check_up(Blinky)) {
-			up(Blinky);
-		}
-		break;
-	case 1:
-		if (!check_down(Blinky)) {
-			down(Blinky);
-		}
-		break;
-	case 2:
-		if (!check_left(Blinky)) {
-			left(Blinky);
-		}
-		break;
-	case 3:
-		if (!check_right(Blinky)) {
-			right(Blinky);
-		}
-		break;
-	}
-}
-
-void GameManager::patrol() { // Ne marche pas..........
-	// Définir une liste de points de patrouille prédéfinis
-	std::vector<Point> patrolPoints = { {3, 4}, {15, 4}, {15, 4}, {3, 14} };
-
-	// Calculer la distance à chaque point de patrouille
-	std::vector<double> distances;
-	for (const auto& point : patrolPoints) {
-		distances.push_back(std::sqrt(std::pow(Blinky.position.x - point.x, 2) + std::pow(Blinky.position.y - point.y, 2)));
-	}
-
-	// Trouver le point de patrouille le plus proche
-	double minDistance = DBL_MAX;
-
-	int closestPointIndex = 0;
-	for (int i = 0; i < distances.size(); ++i) {
-		if (distances[i] < minDistance) {
-			minDistance = distances[i];
-			closestPointIndex = i;
-		}
-	}
-
-	// Déplacer le fantôme vers le point de patrouille le plus proche
-	Point targetPoint = patrolPoints[closestPointIndex];
-	int dx = targetPoint.x - Blinky.position.x;
-	int dy = targetPoint.y - Blinky.position.y;
-
-	// Choisissez la direction à privilégier pour se déplacer vers le point de patrouille
-	if (std::abs(dx) > std::abs(dy)) {
-		if (dx > 0 && !check_right(Blinky)) {
-			right(Blinky);
-		}
-		else if (dx < 0 && !check_left(Blinky)) {
-			left(Blinky);
-		}
-		else if (!check_down(Blinky)) {
-			down(Blinky);
-		}
-		else if (!check_up(Blinky)) {
-			up(Blinky);
-		}
-	}
-	else {
-		if (dy > 0 && !check_down(Blinky)) {
-			down(Blinky);
-		}
-		else if (dy < 0 && !check_up(Blinky)) {
-			up(Blinky);
-		}
-		else if (!check_right(Blinky)) {
-			right(Blinky);
-		}
-		else if (!check_left(Blinky)) {
-			left(Blinky);
-		}
-	}
-}
-
 void GameManager::Move_fantome() {
 	if (state_fantome == 0) {
 		// Cas normal, les fantômes attaquent Pacman
-		//chasePacman();
-		chasePacman();
+		
+		if (!Blinky.inactif) chasePacman(Blinky);
+		if (!Pinky.inactif) randomMovement(Pinky);
+		if (!Inky.inactif) patrol(Inky);
+		if (!Clyde.inactif) randomMovement(Clyde);
 	}
 	else if (state_fantome == 1) {
 		// Cas où les fantômes deviennent bleus, sont vulnérables, comportement de fuite
-		fleeFromPacman();
+		if (!Blinky.inactif) fleeFromPacman(Blinky);
+		if (!Pinky.inactif) fleeFromPacman(Pinky);
+		if (!Inky.inactif) fleeFromPacman(Inky);
+		if (!Clyde.inactif) fleeFromPacman(Clyde);
 	}
-	else {
-		// Cas où les fantômes sont dans un état aléatoire
-		randomMovement();
-	}
-
 }
 
 void GameManager::Respawn_Entity(Entity entity) {
@@ -330,19 +210,40 @@ void GameManager::Respawn_Entity(Entity entity) {
 		graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id);
 	}
 	else if (entity.entity_id == 5) { // Inky 
-		graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
-		Inky.position = pos{ 9,8 };
-		graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
+		if (!Inky.inactif) {
+			graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
+			Inky.position = pos{ 11,6 };
+			graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
+		}
+		else {
+			graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
+			Inky.position = pos{ 9,8 };
+			graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
+		}
 	}
 	else if (entity.entity_id == 6) { // Pinky
-		graph.set_value(Pinky.position.x, Pinky.position.y, graph.get_value(Pinky.position.x, Pinky.position.y) - 6);
-		Pinky.position = pos{ 9,9 };
-		graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
+		if (!Pinky.inactif) {
+			graph.set_value(Pinky.position.x, Pinky.position.y, graph.get_value(Pinky.position.x, Pinky.position.y) - 6);
+			Pinky.position = pos{9,2};
+			graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
+		}
+		else {
+			graph.set_value(Pinky.position.x, Pinky.position.y, graph.get_value(Pinky.position.x, Pinky.position.y) - 6);
+			Pinky.position = pos{ 9,9 };
+			graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
+		}
 	}
 	else if (entity.entity_id == 7) { // Clyde
-		graph.set_value(Clyde.position.x, Clyde.position.y, graph.get_value(Clyde.position.x, Clyde.position.y) - 7);
-		Clyde.position = pos{ 9,10 };
-		graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
+		if (!Clyde.inactif) {
+			graph.set_value(Clyde.position.x, Clyde.position.y, graph.get_value(Clyde.position.x, Clyde.position.y) - 7);
+			Clyde.position = pos{ 9,12 };
+			graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
+		}
+		else {
+			graph.set_value(Clyde.position.x, Clyde.position.y, graph.get_value(Clyde.position.x, Clyde.position.y) - 7);
+			Clyde.position = pos{ 9,10 };
+			graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
+		}
 	}
 }
 
@@ -353,8 +254,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 
 		if (entity.entity_id == 2) {
 
-			if (pos_new.x == 9 && pos_new.y == 18) { // !! ATTENTION les phantomes sont aussi concernés et n'ont pas de dir, donc implementer dir + faire passer classe.
-				// move pacman to 9,0 sans changement de dir
+			if (pos_new.x == 9 && pos_new.y == 18) { 
 				// Mise à jour du graphe 
 				this->graph.set_value(9, 0, entity.entity_id);
 				this->graph.set_value(entity.position.x, entity.position.y, 0);
@@ -362,8 +262,6 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				this->pacman.set_pos_entity(pos{ 9,0 });
 			}
 			else if (pos_new.x == 9 && pos_new.y == 0) {
-				// move pacman to 9,18 avec changement de dir
-
 				// Mise à jour du graphe 
 				this->graph.set_value(9, 18, entity.entity_id);
 				this->graph.set_value(entity.position.x, entity.position.y, 0);
@@ -382,7 +280,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				this->pacman.set_pos_entity(pos_new);
 				// Mise à jour des variables
 				pacman.score += 10;
-				nb_basic_food_restantes -= 1;
+				//nb_basic_food_restantes -= 1; --------------------------------------------------
 			}
 			else if (check_high_food(pos_new)) {
 				// Mise à jour du graphe
@@ -392,7 +290,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				this->pacman.set_pos_entity(pos_new);
 				// Mise à jour des variables 
 				pacman.score += 50;
-				nb_high_food_restantes -= 1;
+				//nb_high_food_restantes -= 1; ----------------------------------------------------
 
 				// fantome deviennent vulnérables, et pacman prédateur pendant 8 secondes : 
 				this->state_fantome = 1; 
@@ -424,6 +322,9 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				Respawn_Entity(Clyde);
 			}
 
+			secure();
+			actu_nourriture_restante();
+			
 		}
 
 		
@@ -432,71 +333,126 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 		// CAS FANTOMES
 
 		else if (entity.entity_id == 4 || entity.entity_id == 5 || entity.entity_id == 6 || entity.entity_id == 7) { 
-			//int value = entity.entity_id + graph.get_value(pos_new.x, pos_new.y);
-			switch (entity.entity_id + graph.get_value(pos_new.x, pos_new.y)) { 
-			case 4: // cas blinky sur vide  4 = 4 + 0 
-				this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 4); // get_value vaut 4,14,24 selon la nourriture qui était présente. Avec la soustraction : 0 (vide), 10 (basic_food), 20 (high_food)
-				this->Blinky.set_pos_entity(pos_new);
-				break;
-			case 5:
-				this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 5); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Inky.set_pos_entity(pos_new);
-				break;
-			case 6:
-				this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 6); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Pinky.set_pos_entity(pos_new);
-				break;
-			case 7:
-				this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 7); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Clyde.set_pos_entity(pos_new);
-				break;
-			case 14: // cas où il y a de la BASIC_FOOD sur la case suivante. 
-				this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 4); // get_value vaut 4,14,24 selon la nourriture qui était présente à la case précédente
-				this->Blinky.set_pos_entity(pos_new); // mise à jour de la position de l'entité. 
-				break;
-			case 15:
-				this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 5); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Inky.set_pos_entity(pos_new);
-				break;
-			case 16:
-				this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 6); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Pinky.set_pos_entity(pos_new);
-				break;
-			case 17:
-				this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 7); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Clyde.set_pos_entity(pos_new);
-				break;
-			case 24: // cas où il y a de la HIGH_FOOD sur la case suivante. 
-				this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 4); // get_value vaut 4,14,24 selon la nourriture qui était présente. Avec la soustraction : 0 (vide), 10 (basic_food), 20 (high_food)
-				this->Blinky.set_pos_entity(pos_new);
-				break;
-			case 25:
-				this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 5); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Inky.set_pos_entity(pos_new);
-				break;
-			case 26:
-				this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 6); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Pinky.set_pos_entity(pos_new);
-				break;
-			case 27:
-				this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
-				this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 7); // get_value vaut 4,14,24 selon la nourriture qui était présente
-				this->Clyde.set_pos_entity(pos_new);
-				break;
-			default:
-				break;
+			if (pos_new.x == 9 && pos_new.y == 18) {
+				switch (entity.entity_id + graph.get_value(pos_new.x, pos_new.y)) {
+					// Mise à jour du graphe 9 0 puis x,y,0
+				case 4: // cas blinky sur vide  4 = 4 + 0 
+					this->graph.set_value(9, 0, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente. Avec la soustraction : 0 (vide), 10 (basic_food), 20 (high_food)
+					this->Blinky.set_pos_entity(pos_new);
+					break;
+				case 5:
+					this->graph.set_value(9, 0, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Inky.set_pos_entity(pos_new);
+					break;
+				case 6:
+					this->graph.set_value(9, 0, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Pinky.set_pos_entity(pos_new);
+					break;
+				case 7:
+					this->graph.set_value(9, 0, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Clyde.set_pos_entity(pos_new);
+				default:
+					break;
+				}
+			}
+			else if (pos_new.x == 9 && pos_new.y == 0) {
+				// Mise à jour du graphe 9 18
+				switch (entity.entity_id + graph.get_value(pos_new.x, pos_new.y)) {
+					// Mise à jour du graphe 9 0 puis x,y,0
+				case 4: // cas blinky sur vide  4 = 4 + 0 
+					this->graph.set_value(9, 18, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente. Avec la soustraction : 0 (vide), 10 (basic_food), 20 (high_food)
+					this->Blinky.set_pos_entity(pos_new);
+					break;
+				case 5:
+					this->graph.set_value(9, 18, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Inky.set_pos_entity(pos_new);
+					break;
+				case 6:
+					this->graph.set_value(9, 18, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Pinky.set_pos_entity(pos_new);
+					break;
+				case 7:
+					this->graph.set_value(9, 18, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, 0); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Clyde.set_pos_entity(pos_new);
+				default:
+					break;
+				}
 
+			}
+			else {
+				switch (entity.entity_id + graph.get_value(pos_new.x, pos_new.y)) {
+				case 4: // cas blinky sur vide  4 = 4 + 0 
+					this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 4); // get_value vaut 4,14,24 selon la nourriture qui était présente. Avec la soustraction : 0 (vide), 10 (basic_food), 20 (high_food)
+					this->Blinky.set_pos_entity(pos_new);
+					break;
+				case 5:
+					this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 5); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Inky.set_pos_entity(pos_new);
+					break;
+				case 6:
+					this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 6); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Pinky.set_pos_entity(pos_new);
+					break;
+				case 7:
+					this->graph.set_value(pos_new.x, pos_new.y, 0 + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 7); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Clyde.set_pos_entity(pos_new);
+					break;
+				case 14: // cas où il y a de la BASIC_FOOD sur la case suivante. 
+					this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 4); // get_value vaut 4,14,24 selon la nourriture qui était présente à la case précédente
+					this->Blinky.set_pos_entity(pos_new); // mise à jour de la position de l'entité. 
+					break;
+				case 15:
+					this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 5); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Inky.set_pos_entity(pos_new);
+					break;
+				case 16:
+					this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 6); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Pinky.set_pos_entity(pos_new);
+					break;
+				case 17:
+					this->graph.set_value(pos_new.x, pos_new.y, basic_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 7); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Clyde.set_pos_entity(pos_new);
+					break;
+				case 24: // cas où il y a de la HIGH_FOOD sur la case suivante. 
+					this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 4); // get_value vaut 4,14,24 selon la nourriture qui était présente. Avec la soustraction : 0 (vide), 10 (basic_food), 20 (high_food)
+					this->Blinky.set_pos_entity(pos_new);
+					break;
+				case 25:
+					this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 5); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Inky.set_pos_entity(pos_new);
+					break;
+				case 26:
+					this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 6); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Pinky.set_pos_entity(pos_new);
+					break;
+				case 27:
+					this->graph.set_value(pos_new.x, pos_new.y, high_food + entity.entity_id);
+					this->graph.set_value(entity.position.x, entity.position.y, graph.get_value(entity.position.x, entity.position.y) - 7); // get_value vaut 4,14,24 selon la nourriture qui était présente
+					this->Clyde.set_pos_entity(pos_new);
+					break;
+				default:
+					break;
+
+				}
 			}
 		}
 	}
@@ -508,6 +464,171 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 
 
 
+
+
+
+
+// Fonction pour le comportement de poursuite
+void GameManager::chasePacman(Entity entity) {
+	// Calculer la direction vers laquelle Blinky doit se déplacer pour attraper Pacman
+	int dx = pacman.position.x - entity.position.x;
+	int dy = pacman.position.y - entity.position.y;
+
+	// Choisissez la direction à privilégier pour attraper Pacman
+	if (abs(dx) > abs(dy)) {
+		// Priorité pour le déplacement horizontal
+		if (dx > 0 && !check_down(entity)) {
+			down(entity);
+		}
+		else if (dx < 0 && !check_up(entity)) {
+			up(entity);
+		}
+		else if (!check_left(entity)) {
+			left(entity);
+		}
+		else if (!check_right(entity)) {
+			right(entity);
+		}
+	}
+	else {
+		// Priorité pour le déplacement vertical
+		if (dy > 0 && !check_right(entity)) {
+			right(entity);
+		}
+		else if (dy < 0 && !check_left(entity)) {
+			left(entity);
+		}
+		else if (!check_up(entity)) {
+			up(entity);
+		}
+		else if (!check_down(entity)) {
+			down(entity);
+		}
+	}
+}
+
+// Fonction pour le comportement de fuite
+void GameManager::fleeFromPacman(Entity entity) {
+	// Calculer la direction pour fuir de Pacman (inverse de la logique de poursuite)
+	int dx = entity.position.x - pacman.position.x;
+	int dy = entity.position.y - pacman.position.y;
+
+	// Choisissez la direction à privilégier pour fuir de Pacman
+	if (abs(dx) > abs(dy)) {
+		// Priorité pour le déplacement horizontal
+		if (dx > 0 && !check_left(entity)) {
+			left(entity);
+		}
+		else if (dx < 0 && !check_right(entity)) {
+			right(entity);
+		}
+		else if (!check_up(entity)) {
+			up(entity);
+		}
+		else if (!check_down(entity)) {
+			down(entity);
+		}
+	}
+	else {
+		// Priorité pour le déplacement vertical
+		if (dy > 0 && !check_up(entity)) {
+			up(entity);
+		}
+		else if (dy < 0 && !check_down(entity)) {
+			down(entity);
+		}
+		else if (!check_left(entity)) {
+			left(entity);
+		}
+		else if (!check_right(entity)) {
+			right(entity);
+		}
+	}
+}
+
+// Fonction pour un comportement aléatoire
+void GameManager::randomMovement(Entity entity) {
+	int random_direction = rand() % 4; // Générer un nombre aléatoire entre 0 et 3 pour choisir une direction
+	switch (random_direction) {
+	case 0:
+		if (!check_up(entity)) {
+			up(entity);
+		}
+		break;
+	case 1:
+		if (!check_down(entity)) {
+			down(entity);
+		}
+		break;
+	case 2:
+		if (!check_left(entity)) {
+			left(entity);
+		}
+		break;
+	case 3:
+		if (!check_right(entity)) {
+			right(entity);
+		}
+		break;
+	}
+}
+
+void GameManager::patrol(Entity entity) { // Ne marche pas..........
+	// Définir une liste de points de patrouille prédéfinis
+	std::vector<Point> patrolPoints = { {3, 4}, {15, 4}, {15, 4}, {3, 14} };
+
+	// Calculer la distance à chaque point de patrouille
+	std::vector<double> distances;
+	for (const auto& point : patrolPoints) {
+		distances.push_back(std::sqrt(std::pow(entity.position.x - point.x, 2) + std::pow(entity.position.y - point.y, 2)));
+	}
+
+	// Trouver le point de patrouille le plus proche
+	double minDistance = DBL_MAX;
+
+	int closestPointIndex = 0;
+	for (int i = 0; i < distances.size(); ++i) {
+		if (distances[i] < minDistance) {
+			minDistance = distances[i];
+			closestPointIndex = i;
+		}
+	}
+
+	// Déplacer le fantôme vers le point de patrouille le plus proche
+	Point targetPoint = patrolPoints[closestPointIndex];
+	int dx = targetPoint.x - entity.position.x;
+	int dy = targetPoint.y - entity.position.y;
+
+	// Choisissez la direction à privilégier pour se déplacer vers le point de patrouille
+	if (std::abs(dx) > std::abs(dy)) {
+		if (dx > 0 && !check_right(entity)) {
+			right(entity);
+		}
+		else if (dx < 0 && !check_left(entity)) {
+			left(entity);
+		}
+		else if (!check_down(entity)) {
+			down(entity);
+		}
+		else if (!check_up(entity)) {
+			up(entity);
+		}
+	}
+	else {
+		if (dy > 0 && !check_down(entity)) {
+			down(entity);
+		}
+		else if (dy < 0 && !check_up(entity)) {
+			up(entity);
+		}
+		else if (!check_right(entity)) {
+			right(entity);
+		}
+		else if (!check_left(entity)) {
+			left(entity);
+		}
+	}
+}
 
 
 void GameManager::left(Entity entity) {

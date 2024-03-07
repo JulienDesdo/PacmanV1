@@ -11,6 +11,7 @@ public :
 	// type? stratégie; // stratégie issue de la théorie des graphes. 
 
 	int color_id; // 0 red, 1 cyan, 2 rose, 3 orange;
+	bool inactif = true;
 
 	Cphantom();
 	Cphantom(pos pos_intiale);
