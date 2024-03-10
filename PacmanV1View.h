@@ -19,7 +19,21 @@ public:
 	int dir_pacman; 
 	int square;
 	bool timer2_active = 0;
+	int nb_seg;
+	int fps; 
+	int fps_timer; 
+	
+	//void CPacmanV1View::permuter_int(int a, int b);
+	//void CPacmanV1View::permuter_double(double a, double b);
 
+	void CPacmanV1View::interpolation(int i, int j);
+
+	double Xcharg1;
+	double Ycharg1;
+	double Xcharg2;
+	double Ycharg2;
+
+	bool interpolation_active; 
 	void CPacmanV1View::afficher(int i, int j, CDC* pDC);
 
 // Opérations

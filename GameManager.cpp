@@ -9,9 +9,10 @@ GameManager::GameManager() {
 
 	horloge = 0;
 	horloge_ghost = 0;
+	horloge_score_ghost = 0; 
 
 	affich_tot = true;
-
+	vitesse = vitesse_initiale; 
 
 	// PACMAN 
 	Cpacman pacman(pos{ 15,9 });
@@ -40,13 +41,14 @@ GameManager::GameManager() {
 	this->Clyde = Clyde; // Orange 
 	graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id); 
 
+	/* 
 	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
 	Respawn_Entity(Inky);
 	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
 	Respawn_Entity(Pinky);
 	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
 	Respawn_Entity(Clyde);
-
+	*/
 }
 
 GameManager::~GameManager() {
@@ -61,7 +63,6 @@ void GameManager::Game_reset() {
 		Respawn_Entity(Inky);
 		Respawn_Entity(Pinky);
 		Respawn_Entity(Clyde);
-
 	}
 	else {
 		// Reset total. 
@@ -70,6 +71,7 @@ void GameManager::Game_reset() {
 		lvl = 0;
 		pacman.score = 0; 
 		pacman.life_nbr = 3;
+		vitesse = vitesse_initiale;
 
 		Blinky.position = pos{ 7,9 };
 		graph.set_value(7, 9, Blinky.entity_id);
@@ -132,16 +134,24 @@ void GameManager::secure() {
 
 void GameManager::maj_level() {
 	lvl += 1;
+	// Eventuellemnt, introduire changement de comportement d'un niveau à l'autre. 
 	if (lvl == 1) { // Rendre un deuxième fantome actif
 		this->Inky.inactif = false;
+		vitesse = 200; // Augmentation de la vitesse du jeu
+		Respawn_Entity(Inky);
 	}
 	else if (lvl == 2) { // Rendre un troisieme fantome actif
 		this->Pinky.inactif = false;
+		vitesse = 150; // Augmentation de la vitesse du jeu
+		Respawn_Entity(Pinky);
 	}
 	else if (lvl == 3) { // Rendre quatrieme fantome actif
 		this->Clyde.inactif = false;
+		Respawn_Entity(Clyde);
 	}
-
+	else if (lvl == 4) {
+		// prevoir boite de dialogue "FIN DU JEU" : vous pouvez CONTINUEZ INDEFINIMENT ou RECOMMENCER
+	}
 }
 
 bool GameManager::check_collision(pos pos_new) {
@@ -188,9 +198,9 @@ void GameManager::Move_fantome() {
 	else if (state_fantome == 1) {
 		// Cas où les fantômes deviennent bleus, sont vulnérables, comportement de fuite
 		if (!Blinky.inactif) fleeFromPacman(Blinky);
-		if (!Pinky.inactif) fleeFromPacman(Pinky);
+		if (!Pinky.inactif) chasePacman(Pinky); // il est idiot 
 		if (!Inky.inactif) fleeFromPacman(Inky);
-		if (!Clyde.inactif) fleeFromPacman(Clyde);
+		if (!Clyde.inactif) randomMovement(Clyde);
 	}
 }
 
@@ -280,7 +290,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				this->pacman.set_pos_entity(pos_new);
 				// Mise à jour des variables
 				pacman.score += 10;
-				//nb_basic_food_restantes -= 1; --------------------------------------------------
+				//nb_basic_food_restantes -= 1; 
 			}
 			else if (check_high_food(pos_new)) {
 				// Mise à jour du graphe
@@ -290,7 +300,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				this->pacman.set_pos_entity(pos_new);
 				// Mise à jour des variables 
 				pacman.score += 50;
-				//nb_high_food_restantes -= 1; ----------------------------------------------------
+				//nb_high_food_restantes -= 1; 
 
 				// fantome deviennent vulnérables, et pacman prédateur pendant 8 secondes : 
 				this->state_fantome = 1; 
@@ -306,19 +316,35 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 
 			// Cas où pacman rencontre un fantome en plus de la nourriture. (state_fantome == 1) 
 			if (check_entity(Blinky, pacman) && state_fantome == 1) { // cas où pacman mange fantome 
-				pacman.score += 200;
+				affich_gain = true; 
+				cumul_gain += 200; 
+				pos_collision_fantome = pacman.get_pos_entity();
+
+				pacman.score += cumul_gain;
 				Respawn_Entity(Blinky);
 			}
 			else if (check_entity(pacman, Inky) && state_fantome == 1) { // cas où pacman mange fantome 
-				pacman.score += 200;
+				affich_gain = true;
+				cumul_gain += 200;
+				pos_collision_fantome = pacman.get_pos_entity();
+
+				pacman.score += cumul_gain;
 				Respawn_Entity(Inky);
 			}
 			else if (check_entity(pacman, Pinky) && state_fantome == 1) { // cas où pacman mange fantome 
-				pacman.score += 200;
+				affich_gain = true;
+				cumul_gain += 200;
+				pos_collision_fantome = pacman.get_pos_entity();
+
+				pacman.score += cumul_gain;
 				Respawn_Entity(Pinky);
 			}
 			else if (check_entity(pacman, Clyde) && state_fantome == 1) { // cas où pacman mange fantome
-				pacman.score += 200;
+				affich_gain = true;
+				cumul_gain += 200;
+				pos_collision_fantome = pacman.get_pos_entity();
+
+				pacman.score += cumul_gain;
 				Respawn_Entity(Clyde);
 			}
 
