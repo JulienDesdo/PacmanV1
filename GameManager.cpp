@@ -41,14 +41,14 @@ GameManager::GameManager() {
 	this->Clyde = Clyde; // Orange 
 	graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id); 
 
-	/* 
+	
 	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
 	Respawn_Entity(Inky);
 	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
 	Respawn_Entity(Pinky);
 	maj_level(); // ------------------------------------------------------------ TEST ----------------------------------------------
 	Respawn_Entity(Clyde);
-	*/
+	
 }
 
 GameManager::~GameManager() {
@@ -148,6 +148,38 @@ void GameManager::maj_level() {
 	else if (lvl == 3) { // Rendre quatrieme fantome actif
 		this->Clyde.inactif = false;
 		Respawn_Entity(Clyde);
+	}
+	else if (lvl == 4) {
+		// prevoir boite de dialogue "FIN DU JEU" : vous pouvez CONTINUEZ INDEFINIMENT ou RECOMMENCER
+	}
+}
+
+void GameManager::check_level() { 
+	// Eventuellemnt, introduire changement de comportement d'un niveau à l'autre. 
+	if (lvl == 1) { // Rendre un deuxième fantome actif
+		this->Inky.inactif = false;
+		vitesse = 200; // Augmentation de la vitesse du jeu
+		Respawn_Entity(Inky);
+	}
+	else if (lvl == 2) { // Rendre un troisieme fantome actif
+		this->Pinky.inactif = false;
+		vitesse = 150; // Augmentation de la vitesse du jeu
+		Respawn_Entity(Pinky);
+
+		this->Inky.inactif = false;
+		Respawn_Entity(Inky);
+	}
+	else if (lvl == 3) { // Rendre quatrieme fantome actif
+		this->Clyde.inactif = false;
+		Respawn_Entity(Clyde);
+
+		this->Pinky.inactif = false;
+		vitesse = 150; // Augmentation de la vitesse du jeu
+		Respawn_Entity(Pinky);
+
+		this->Inky.inactif = false;
+		vitesse = 200; // Augmentation de la vitesse du jeu
+		Respawn_Entity(Inky);
 	}
 	else if (lvl == 4) {
 		// prevoir boite de dialogue "FIN DU JEU" : vous pouvez CONTINUEZ INDEFINIMENT ou RECOMMENCER

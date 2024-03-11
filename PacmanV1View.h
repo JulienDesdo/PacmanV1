@@ -5,6 +5,7 @@
 #pragma once
 #include "Cpacman.h"
 #include "GameManager.h"
+#include "CBoiteSettings.h"
 
 class CPacmanV1View : public CView
 {
@@ -22,6 +23,8 @@ public:
 	int nb_seg;
 	int fps; 
 	int fps_timer; 
+
+	CBoiteSettings dlg;
 	
 	//void CPacmanV1View::permuter_int(int a, int b);
 	//void CPacmanV1View::permuter_double(double a, double b);
@@ -69,6 +72,7 @@ public:
 //	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	virtual void OnInitialUpdate();
+	afx_msg void OnSettingsgame();
 };
 
 #ifndef _DEBUG  // version Debug dans PacmanV1View.cpp

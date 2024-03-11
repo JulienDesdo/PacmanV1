@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CPacmanV1View, CView)
 	ON_WM_RBUTTONUP()
 	ON_WM_TIMER()
 	ON_WM_KEYDOWN()
+	ON_COMMAND(ID_SETTINGSGAME, &CPacmanV1View::OnSettingsgame)
 END_MESSAGE_MAP()
 
 // construction/destruction de CPacmanV1View
@@ -336,7 +337,8 @@ void CPacmanV1View::OnDraw(CDC* pDC)
 	//SetTimer(3, 400, NULL); // timer fantomes -> NON car sinon probleme decompte nourriture... si on met MoveFantom dedans.  
 	//SetTimer(1, 250, NULL); // 375 timer pacman
 	SetTimer(1, fps_timer, NULL); // 60 FPS rafraichissement. = int(1000/60) = 16 = fps_timer
-	
+	//CBoiteSettings dlg; 
+	//dlg.DoModal(); 
 	//SetFocus();
 }
 
@@ -408,35 +410,38 @@ CPacmanV1Doc* CPacmanV1View::GetDocument() const // la version non Debug est inl
 void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 {
 	CDC* pDC = GetDC();
+	// dlg.OnActivate(); Non! : OnActivate automatiquement appelée à chaque changement dans la fenetre.
 
 	if (nIDEvent == 1) {
-		if (game.horloge > int(game.vitesse/fps_timer)) { // 250/16 = 15.6 => on affiche 15.6 fois par nIDEvent avant de rentrer dans le if. 
-	
-			// Mouvement de Pacman
-			switch (game.pacman.dir) {
-			case 0:
-				game.left(game.pacman);
-				break;
-			case 1:
-				game.right(game.pacman);
-				break;
-			case 2:
-				game.down(game.pacman);
-				break;
-			case 3:
-				game.up(game.pacman);
-				break;
-			default:
-				break;
+		
+		if (!dlg.m_isActive) { // Si boite de dialogue fermée. 
+			if (game.horloge > int(game.vitesse / fps_timer)) { // 250/16 = 15.6 => on affiche 15.6 fois par nIDEvent avant de rentrer dans le if. 
+
+				// Mouvement de Pacman
+				switch (game.pacman.dir) {
+				case 0:
+					game.left(game.pacman);
+					break;
+				case 1:
+					game.right(game.pacman);
+					break;
+				case 2:
+					game.down(game.pacman);
+					break;
+				case 3:
+					game.up(game.pacman);
+					break;
+				default:
+					break;
+				}
+				game.Move_fantome();
+				game.horloge = 0;
+				// Collision pacman avec un phantome.
+				// re-initialisation s'il n'y plus de nourriture. sous certaines conditions 
+				game.reset_food();
+
+
 			}
-			game.Move_fantome();
-			game.horloge = 0;
-			// Collision pacman avec un phantome.
-			// re-initialisation s'il n'y plus de nourriture. sous certaines conditions 
-			game.reset_food();
-
-
-		}
 
 		game.horloge += 1; // incrémentation de l'horloge du jeu à chaque passage dans timer tous les 16. (= 60 FPS)
 
@@ -445,18 +450,18 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 			game.horloge_ghost += 1;
 		}
 
-		if (game.horloge_ghost > int(game.temps_vulnerable/fps_timer)) { // 8000 / 16 = 8 secondes / 16 = 500. 
+		if (game.horloge_ghost > int(game.temps_vulnerable / fps_timer)) { // 8000 / 16 = 8 secondes / 16 = 500. 
 			game.horloge_ghost = 0;
 			game.cumul_gain = 0; // pour reinitialiser cumul_gain. (pacman mange fantomes) 
 			if (game.nb_high_food_ingere == 1) {
-				game.state_fantome = 0; 
+				game.state_fantome = 0;
 			}
-			game.nb_high_food_ingere -= 1; 
+			game.nb_high_food_ingere -= 1;
 		}
-		
+
 		// Affichage de la grille 
 
-		if (game.affich_tot) { 
+		if (game.affich_tot) {
 			for (int i = 0; i <= 20; i++) {
 				for (int j = 0; j <= 18; j++) {
 					afficher(i, j, pDC);
@@ -480,10 +485,10 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 			pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 			game.horloge_score_ghost += 1;
 		}
-		
+
 		if (game.horloge_score_ghost > int(600 / fps_timer)) {
-			game.horloge_score_ghost = 0; 
-			game.affich_gain = false; 
+			game.horloge_score_ghost = 0;
+			game.affich_gain = false;
 		}
 
 		// Affichage du score global
@@ -509,89 +514,97 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 		pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
 		pDC->TextOutW(30, square * 21, livesText);
 		pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
-		
+
 
 
 		// Cas interface admin activée. 
 
 		if (game.admin) {
-				// Affichage variable1 
-				CString scoreText;
-				scoreText.Format(_T("ADMIN, nb_basic_food_restantes   %d"), game.nb_basic_food_restantes); // game.pacman.score
-				CFont font;
-				font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
-					CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
-				CFont* oldFont = pDC->SelectObject(&font);
-				pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
-				pDC->TextOutW(330, square * 22, scoreText); // pDC->TextOutW(120, square*21, scoreText); 
-				pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+			// Affichage variable1 
+			CString scoreText;
+			scoreText.Format(_T("ADMIN, nb_basic_food_restantes   %d"), game.nb_basic_food_restantes); // game.pacman.score
+			CFont font;
+			font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+				CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+			CFont* oldFont = pDC->SelectObject(&font);
+			pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+			pDC->TextOutW(330, square * 22, scoreText); // pDC->TextOutW(120, square*21, scoreText); 
+			pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 
-				// Affichage variable2
-				CString livesText;
-				livesText.Format(_T("ADMIN, nb_high_food_restantes  %d"), game.nb_high_food_restantes); // game.pacman.life_nbr
-				font.DeleteObject(); // Supprimer l'ancienne fonte
-				font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
-					CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
-				oldFont = pDC->SelectObject(&font);
-				pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
-				pDC->TextOutW(30, square * 22, livesText);
-				pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+			// Affichage variable2
+			CString livesText;
+			livesText.Format(_T("ADMIN, nb_high_food_restantes  %d"), game.nb_high_food_restantes); // game.pacman.life_nbr
+			font.DeleteObject(); // Supprimer l'ancienne fonte
+			font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+				CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+			oldFont = pDC->SelectObject(&font);
+			pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+			pDC->TextOutW(30, square * 22, livesText);
+			pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 
-				// Affichage variable 3 
-				CString var3Text;
-				var3Text.Format(_T("ADMIN, game.cumul_gain  %d, game.pos_collision_fantome.x  %d, game.pos_collision_fantome.y  %d, pacman pos x,y : %d %d"), game.cumul_gain, game.pos_collision_fantome.x, game.pos_collision_fantome.y, game.pacman.position.x, game.pacman.position.y); // game.pacman.life_nbr
-				font.DeleteObject(); // Supprimer l'ancienne fonte
-				font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
-					CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
-				oldFont = pDC->SelectObject(&font);
-				pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
-				pDC->TextOutW(600, square * 22, var3Text);
-				pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+			// Affichage variable 3 
+			CString var3Text;
+			var3Text.Format(_T("ADMIN, game.cumul_gain  %d, game.pos_collision_fantome.x  %d, game.pos_collision_fantome.y  %d, pacman pos x,y : %d %d"), game.cumul_gain, game.pos_collision_fantome.x, game.pos_collision_fantome.y, game.pacman.position.x, game.pacman.position.y); // game.pacman.life_nbr
+			font.DeleteObject(); // Supprimer l'ancienne fonte
+			font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+				CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+			oldFont = pDC->SelectObject(&font);
+			pDC->SetTextColor(RGB(255, 255, 255)); // Mettre la couleur en blanc
+			pDC->TextOutW(600, square * 22, var3Text);
+			pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
 
-				
-				// Affichage de la matrice brute. METTRE COULEUR POUR LISIBILITE DE L ADMIN 
-			
-				if (game.affich_tot) { 
-					for (int i = 0; i <= 20; i++) {
-						for (int j = 0; j <= 18; j++) {
 
-							CString val_matrice;
-							val_matrice.Format(_T(" %d"), game.graph.get_value(i, j)); // game.pacman.life_nbr
-							font.DeleteObject(); // Supprimer l'ancienne fonte
-							font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
-								CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
-							oldFont = pDC->SelectObject(&font);
+			// Affichage de la matrice brute. METTRE COULEUR POUR LISIBILITE DE L ADMIN 
 
-							if (game.graph.get_value(i, j) == 2) {
-								pDC->SetTextColor(RGB(255, 255, 0)); 
-							}
-							else if (game.graph.get_value(i, j) == 4 || game.graph.get_value(i, j) == 14 || game.graph.get_value(i, j) == 24) {
-								pDC->SetTextColor(RGB(255, 0, 0)); 
-							}
-							else if (game.graph.get_value(i, j) == 5 || game.graph.get_value(i, j) == 15 || game.graph.get_value(i, j) == 25) {
-								pDC->SetTextColor(RGB(0, 255, 255)); 
-							}
-							else if (game.graph.get_value(i, j) == 6 || game.graph.get_value(i, j) == 16 || game.graph.get_value(i, j) == 26) {
-								pDC->SetTextColor(RGB(253, 108, 153));
-							}
-							else if (game.graph.get_value(i, j) == 7 || game.graph.get_value(i, j) == 17 || game.graph.get_value(i, j) == 27) {
-								pDC->SetTextColor(RGB(255, 69, 0));
-							}
-							else if (game.graph.get_value(i, j) == 1) {
-								pDC->SetTextColor(RGB(0, 0, 0)); 
-							}
-							else {	
-								pDC->SetTextColor(RGB(255, 255, 255)); 
-							}
+			if (game.affich_tot) {
+				for (int i = 0; i <= 20; i++) {
+					for (int j = 0; j <= 18; j++) {
 
-							pDC->TextOutW(700 + square * j, 20 + square * i, val_matrice);
-							pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
-							
-							
+						CString val_matrice;
+						val_matrice.Format(_T(" %d"), game.graph.get_value(i, j)); // game.pacman.life_nbr
+						font.DeleteObject(); // Supprimer l'ancienne fonte
+						font.CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+							CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")); // Créer une fonte plus grande, en gras
+						oldFont = pDC->SelectObject(&font);
+
+						if (game.graph.get_value(i, j) == 2) {
+							pDC->SetTextColor(RGB(255, 255, 0));
 						}
+						else if (game.graph.get_value(i, j) == 4 || game.graph.get_value(i, j) == 14 || game.graph.get_value(i, j) == 24) {
+							pDC->SetTextColor(RGB(255, 0, 0));
+						}
+						else if (game.graph.get_value(i, j) == 5 || game.graph.get_value(i, j) == 15 || game.graph.get_value(i, j) == 25) {
+							pDC->SetTextColor(RGB(0, 255, 255));
+						}
+						else if (game.graph.get_value(i, j) == 6 || game.graph.get_value(i, j) == 16 || game.graph.get_value(i, j) == 26) {
+							pDC->SetTextColor(RGB(253, 108, 153));
+						}
+						else if (game.graph.get_value(i, j) == 7 || game.graph.get_value(i, j) == 17 || game.graph.get_value(i, j) == 27) {
+							pDC->SetTextColor(RGB(255, 69, 0));
+						}
+						else if (game.graph.get_value(i, j) == 1) {
+							pDC->SetTextColor(RGB(0, 0, 0));
+						}
+						else {
+							pDC->SetTextColor(RGB(255, 255, 255));
+						}
+
+						pDC->TextOutW(700 + square * j, 20 + square * i, val_matrice);
+						pDC->SelectObject(oldFont); // Restaurer la fonte par défaut
+
+
 					}
 				}
+			}
 		}
+
+	} 
+	else { // Boite de dialogue active. Attendre sa fermeture. 
+		
+	}
+
+
+
 
 	}
 	CView::OnTimer(nIDEvent);
@@ -666,15 +679,20 @@ BOOL CPacmanV1View::PreTranslateMessage(MSG* pMsg)
 void CPacmanV1View::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
-	/*
-	CDC* pDC = GetDC();
-	// TODO: ajoutez ici votre code spécialisé et/ou l'appel de la classe de base
-	for (int i = 0; i <= 20; i++) {
-		for (int j = 0; j <= 18; j++) {
-			afficher(i, j, pDC);
-			game.affich_tot = false;
-		}
-	}
-	Invalidate(); // Force le redessin de la vue
-	*/
+	
+}
+
+
+void CPacmanV1View::OnSettingsgame() // Boite de dialogue Settings Game 
+{
+	dlg.DoModal(); 
+	
+	game.admin = dlg.BDD_admin; // ok mais problème d'effacement... à voir. 
+	interpolation_active = dlg.BDD_interpolation;
+	game.affich_tot = dlg.BDD_affch;
+	game.vitesse = dlg.BDD_speed_selected;
+	game.pacman.life_nbr = dlg.BDD_life_pacman;
+	if (game.lvl != dlg.BDD_lvl) game.check_level(); // à corriger pour le rendre effectif sur le programme. + decrease level effect. 
+	game.lvl = dlg.BDD_lvl;
+	
 }

@@ -72,6 +72,9 @@
     <ClInclude Include="Entity.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="CBoiteSettings.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PacmanV1.cpp">
@@ -120,6 +123,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoiteSettings.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

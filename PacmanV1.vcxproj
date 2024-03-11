@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CBoiteSettings.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="Cpacman.h" />
     <ClInclude Include="Cphantom.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CBoiteSettings.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="Cpacman.cpp" />
     <ClCompile Include="Cphantom.cpp" />

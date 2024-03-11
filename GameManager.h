@@ -88,6 +88,7 @@ public:
 	// Game features
 	void GameManager::Respawn_Entity(Entity entity);
 	void GameManager::maj_level();
+	void GameManager::check_level(); // fonction de vérification. 
 
 	// Ghosts available behavour
 	void GameManager::chasePacman(Entity entity);
