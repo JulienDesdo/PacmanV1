@@ -84,6 +84,13 @@ public:
 	int horloge_score_ghost; 
 	int vitesse = vitesse_initiale; // Il s'agit de la vitesse du jeu. Variable qui permet de borner "horloge". 
 	int vitesse_initiale = 240;
+	
+	int temps_prison = 6500; 
+	// une horloge pour chaque fantome car pas de multithreading. 
+	int clock_prison_Blinky; 
+	int clock_prison_Inky;
+	int clock_prison_Pinky;
+	int clock_prison_Clyde;
 
 	// Game features
 	void GameManager::Respawn_Entity(Entity entity);
@@ -106,6 +113,7 @@ public:
 	bool affich_gain = false; 
 	int cumul_gain = 0; 
 	pos pos_collision_fantome = { 0,0 }; 
+	
 
 };
 

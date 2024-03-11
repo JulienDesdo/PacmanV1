@@ -459,6 +459,53 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 			game.nb_high_food_ingere -= 1;
 		}
 
+		// Prison fantome 
+
+		// Cas Blinky 
+		if (game.Blinky.dead) { // if blinky mangé == dead = true 
+			game.clock_prison_Blinky += 1;
+		}
+
+		if (game.clock_prison_Blinky > int(game.temps_prison / fps_timer)) {
+			game.clock_prison_Blinky = 0; 
+			game.Blinky.dead = false;
+			// respawn en dehors de la prison. 
+			game.Respawn_Entity(game.Blinky);
+		}
+
+		// Cas Inky 
+		if (game.Inky.dead) {
+			game.clock_prison_Inky += 1; 
+		}
+
+		if (game.clock_prison_Inky > int(game.temps_prison / fps_timer)) {
+			game.clock_prison_Inky = 0; 
+			game.Inky.dead = false; 
+			game.Respawn_Entity(game.Inky);
+		}
+
+		// Cas Pinky
+		if (game.Pinky.dead) {
+			game.clock_prison_Pinky += 1; 
+		}
+
+		if (game.clock_prison_Pinky > int(game.temps_prison / fps_timer)) {
+			game.clock_prison_Pinky = 0; 
+			game.Pinky.dead = false; 
+			game.Respawn_Entity(game.Pinky);
+		}
+
+		// Cas Clyde 
+		if (game.Clyde.dead) {
+			game.clock_prison_Clyde += 1; 
+		}
+
+		if (game.clock_prison_Clyde > int(game.temps_prison / fps_timer)) {
+			game.clock_prison_Clyde = 0; 
+			game.Clyde.dead = false; 
+			game.Respawn_Entity(game.Clyde);
+		}
+
 		// Affichage de la grille 
 
 		if (game.affich_tot) {
@@ -600,7 +647,7 @@ void CPacmanV1View::OnTimer(UINT_PTR nIDEvent)
 
 	} 
 	else { // Boite de dialogue active. Attendre sa fermeture. 
-		
+	
 	}
 
 
@@ -695,4 +742,40 @@ void CPacmanV1View::OnSettingsgame() // Boite de dialogue Settings Game
 	if (game.lvl != dlg.BDD_lvl) game.check_level(); // à corriger pour le rendre effectif sur le programme. + decrease level effect. 
 	game.lvl = dlg.BDD_lvl;
 	
+}
+
+void CPacmanV1View::EffacerContenuALL()
+{
+	// Obtenez le contexte de périphérique de la vue
+	CDC* pDC = GetDC();
+
+	// Récupérer la taille de la vue
+	CRect rectClient;
+	GetClientRect(&rectClient);
+
+	// Remplir la vue avec une couleur unie (par exemple, blanc)
+	pDC->FillSolidRect(rectClient, RGB(255, 255, 255)); // Remplacez RGB(255, 255, 255) par la couleur de votre choix
+
+	// Libérer le contexte de périphérique
+	ReleaseDC(pDC);
+}
+
+/* 
+void CVotreVue::EffacerContenuPartiel(int x, int y, int width, int height)
+{
+	// Obtenez le contexte de périphérique de la vue
+	CDC* pDC = GetDC();
+
+	// Remplir la zone spécifiée avec une couleur unie (par exemple, blanc)
+	pDC->FillSolidRect(x, y, width, height, RGB(255, 255, 255)); // Remplacez RGB(255, 255, 255) par la couleur de votre choix
+
+	// Libérer le contexte de périphérique
+	ReleaseDC(pDC);
+}
+*/
+void CPacmanV1View::EffacerContenuAdmin() {
+
+}
+void CPacmanV1View::EffacerContenuAffichtot() {
+
 }

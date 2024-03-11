@@ -23,7 +23,9 @@ public:
 	int nb_seg;
 	int fps; 
 	int fps_timer; 
-
+	void CPacmanV1View::EffacerContenuALL();
+	void CPacmanV1View::EffacerContenuAdmin();
+	void CPacmanV1View::EffacerContenuAffichtot();
 	CBoiteSettings dlg;
 	
 	//void CPacmanV1View::permuter_int(int a, int b);

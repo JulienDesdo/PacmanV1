@@ -10,6 +10,11 @@ GameManager::GameManager() {
 	horloge = 0;
 	horloge_ghost = 0;
 	horloge_score_ghost = 0; 
+	
+	clock_prison_Blinky = 0;
+	clock_prison_Inky = 0;
+	clock_prison_Pinky = 0;
+	clock_prison_Clyde = 0;
 
 	affich_tot = true;
 	vitesse = vitesse_initiale; 
@@ -245,45 +250,66 @@ void GameManager::Respawn_Entity(Entity entity) {
 		graph.set_value(pacman.position.x, pacman.position.y, pacman.entity_id);
 	}
 	else if (entity.entity_id == 4) { // Blinky 
-		
-		graph.set_value(Blinky.position.x, Blinky.position.y, graph.get_value(Blinky.position.x, Blinky.position.y) - 4);
-		//graph.set_value(Blinky.position.x, Blinky.position.y, 0);
-		Blinky.position = pos{ 7,9 };
-		graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id);
-	}
-	else if (entity.entity_id == 5) { // Inky 
-		if (!Inky.inactif) {
-			graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
-			Inky.position = pos{ 11,6 };
-			graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
+		if (Blinky.dead || Blinky.inactif) {
+			graph.set_value(Blinky.position.x, Blinky.position.y, graph.get_value(Blinky.position.x, Blinky.position.y) - 4);
+			Blinky.position = pos{ 7,2 };
+			graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id);
 		}
 		else {
+			graph.set_value(Blinky.position.x, Blinky.position.y, graph.get_value(Blinky.position.x, Blinky.position.y) - 4);
+			//graph.set_value(Blinky.position.x, Blinky.position.y, 0);
+			Blinky.position = pos{ 7,9 };
+			graph.set_value(Blinky.position.x, Blinky.position.y, Blinky.entity_id);
+		}
+	}
+	else if (entity.entity_id == 5) { // Inky 
+		if (Inky.inactif) { // soit inactif soit en prison (c'est à dire qu'il est mort) 
 			graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
 			Inky.position = pos{ 9,8 };
 			graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
 		}
+		else if (Inky.dead) {
+			graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
+			Inky.position = pos{ 11,2 };
+			graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
+		}
+		else {
+			graph.set_value(Inky.position.x, Inky.position.y, graph.get_value(Inky.position.x, Inky.position.y) - 5);
+			Inky.position = pos{ 11,6 };
+			graph.set_value(Inky.position.x, Inky.position.y, Inky.entity_id);
+		}
 	}
 	else if (entity.entity_id == 6) { // Pinky
-		if (!Pinky.inactif) {
+		if (Pinky.inactif) {
 			graph.set_value(Pinky.position.x, Pinky.position.y, graph.get_value(Pinky.position.x, Pinky.position.y) - 6);
-			Pinky.position = pos{9,2};
+			Pinky.position = pos{9,9};
+			graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
+		}
+		else if (Pinky.dead) {
+			graph.set_value(Pinky.position.x, Pinky.position.y, graph.get_value(Pinky.position.x, Pinky.position.y) - 6);
+			Pinky.position = pos{ 7,16 };
 			graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
 		}
 		else {
 			graph.set_value(Pinky.position.x, Pinky.position.y, graph.get_value(Pinky.position.x, Pinky.position.y) - 6);
-			Pinky.position = pos{ 9,9 };
+			Pinky.position = pos{ 9,2 };
 			graph.set_value(Pinky.position.x, Pinky.position.y, Pinky.entity_id);
 		}
 	}
 	else if (entity.entity_id == 7) { // Clyde
-		if (!Clyde.inactif) {
+		if (Clyde.inactif) {
 			graph.set_value(Clyde.position.x, Clyde.position.y, graph.get_value(Clyde.position.x, Clyde.position.y) - 7);
-			Clyde.position = pos{ 9,12 };
+			Clyde.position = pos{ 9,10 };
+			graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
+		}
+		else if (Clyde.dead) {
+			graph.set_value(Clyde.position.x, Clyde.position.y, graph.get_value(Clyde.position.x, Clyde.position.y) - 7);
+			Clyde.position = pos{ 11,16 };
 			graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
 		}
 		else {
 			graph.set_value(Clyde.position.x, Clyde.position.y, graph.get_value(Clyde.position.x, Clyde.position.y) - 7);
-			Clyde.position = pos{ 9,10 };
+			Clyde.position = pos{ 9,12 };
 			graph.set_value(Clyde.position.x, Clyde.position.y, Clyde.entity_id);
 		}
 	}
@@ -353,7 +379,8 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				pos_collision_fantome = pacman.get_pos_entity();
 
 				pacman.score += cumul_gain;
-				Respawn_Entity(Blinky);
+				Blinky.dead = true; // mort => fait un tour en prison pour 4 secondes. 
+				Respawn_Entity(Blinky); // Attention respawn prison necessaire 
 			}
 			else if (check_entity(pacman, Inky) && state_fantome == 1) { // cas où pacman mange fantome 
 				affich_gain = true;
@@ -361,6 +388,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				pos_collision_fantome = pacman.get_pos_entity();
 
 				pacman.score += cumul_gain;
+				Inky.dead = true; 
 				Respawn_Entity(Inky);
 			}
 			else if (check_entity(pacman, Pinky) && state_fantome == 1) { // cas où pacman mange fantome 
@@ -369,6 +397,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				pos_collision_fantome = pacman.get_pos_entity();
 
 				pacman.score += cumul_gain;
+				Pinky.dead = true; 
 				Respawn_Entity(Pinky);
 			}
 			else if (check_entity(pacman, Clyde) && state_fantome == 1) { // cas où pacman mange fantome
@@ -377,6 +406,7 @@ void GameManager::move(pos pos_new, Entity entity) { // Entity est utilisé grâce
 				pos_collision_fantome = pacman.get_pos_entity();
 
 				pacman.score += cumul_gain;
+				Clyde.dead = true; 
 				Respawn_Entity(Clyde);
 			}
 
