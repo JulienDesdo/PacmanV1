@@ -1,7 +1,7 @@
-# ** Pacman Microsoft Fundation Class ** 
+# **Pacman Microsoft Fundation Class** 
 
-👋 Hi there! This is my first project in C++. It is the project for class on MFC. 
-They asked to design a pacman game (no graphics) with dialog box. 
+👋 Hi there! This is my first project in C++. It was a project for class. 
+They asked to design a pacman game (no graphics) with dialog box (that's why we used MFC). 
 
 ## **Summary**
 
