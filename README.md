@@ -27,7 +27,8 @@ Il décrit en détail le fonctionnement du jeu, les choix techniques, les bugs r
 🔧 Note : Ce projet visait la logique de jeu et non l’apparence graphique. Le moteur est minimaliste mais fonctionnel.
 
 <br>
-*Seatech – 2024*
+
+*Seatech – 2024* <br>
 *0wI* 
 
 ## 📚 Sommaire
