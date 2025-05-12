@@ -38,15 +38,15 @@ Il décrit en détail le fonctionnement du jeu, les choix techniques, les bugs r
 
 # 📄 Rapport de Projet d’IHM : Pac-Man
 
-![Pacman demo](docs/PacmanV1-demo.gif)
+![Pacman demo](Documentation/PacmanV1-demo.gif)
 
 🔧 Note : Ce projet visait la logique de jeu et non l’apparence graphique. Le moteur est minimaliste mais fonctionnel.<br>
 
-![Pacman demo2](docs/PacmanV1.gif)
+![Pacman demo2](Documentation/PacmanV1.gif)
 
 🔧 Mode debug activé (visualisation des états internes, utilisé pour le développement et le test des collisions).<br>
 
-![Pacman demo3](docs/PacmanV1-dialog.gif)
+![Pacman demo3](Documentation/PacmanV1-dialog.gif)
 
 *Seatech – 2024* <br>
 *0wI* 
