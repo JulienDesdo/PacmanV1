@@ -26,7 +26,8 @@ To run PacmanV1 on your machine:
     - Platform toolset: `v143`
 4. Build and run:
     - Press Ctrl + F5 to launch the game (Release or Debug mode). ℹ️ If you're new to MFC: the application will auto-launch from `PacmanV1App`, which opens the `MainFrame` and displays the `PacmanV1View`. No manual execution is needed from the ClassView.
-
+  
+📷 *Screenshots and setup help available in the `Documentation/` folder.*
 
 ---
 
@@ -37,10 +38,15 @@ Il décrit en détail le fonctionnement du jeu, les choix techniques, les bugs r
 
 # 📄 Rapport de Projet d’IHM : Pac-Man
 
-![Pacman demo](docs/pacman_demo.gif)
+![Pacman demo](docs/PacmanV1-demo.gif)
 
 🔧 Note : Ce projet visait la logique de jeu et non l’apparence graphique. Le moteur est minimaliste mais fonctionnel.<br>
+
+![Pacman demo2](docs/PacmanV1.gif)
+
 🔧 Mode debug activé (visualisation des états internes, utilisé pour le développement et le test des collisions).<br>
+
+![Pacman demo3](docs/PacmanV1-dialog.gif)
 
 *Seatech – 2024* <br>
 *0wI* 
