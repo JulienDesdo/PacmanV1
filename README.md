@@ -30,6 +30,7 @@ To run PacmanV1 on your machine:
 📷 *Screenshots and setup help available in the `Documentation/` folder.*
 
 ---
+---
 
 🇫🇷 Ci-dessous, vous trouverez le rapport de projet complet que j'avais rédigé à l'époque (en français) à quelques reformulations près.  <br>
 Il décrit en détail le fonctionnement du jeu, les choix techniques, les bugs rencontrés et mes idées d’évolution.
