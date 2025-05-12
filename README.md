@@ -13,6 +13,21 @@ These elements included teleporters, special powers (strong pacman to break wall
 
 I've named this repo **PacmanV1** in case I finish it one day on another framework. 
 
+## 🚀 **Launch the Project**
+
+To run PacmanV1 on your machine:
+1. Install Visual Studio (Community Edition) with the following workloads:
+    - C++ MFC for latest Build Tools (`v143`)
+    - Windows SDK `10.0.x`
+    - MSVC v143 toolset
+2. Open the solution file `PacmanV1.sln` in Visual Studio.
+3. If prompted to retarget the project, choose:
+    - SDK version: `10.0` (latest installed)
+    - Platform toolset: `v143`
+4. Build and run:
+    - Press Ctrl + F5 to launch the game (Release or Debug mode). ℹ️ If you're new to MFC: the application will auto-launch from `PacmanV1App`, which opens the `MainFrame` and displays the `PacmanV1View`. No manual execution is needed from the ClassView.
+
+
 ---
 
 🇫🇷 Ci-dessous, vous trouverez le rapport de projet complet que j'avais rédigé à l'époque (en français) à quelques reformulations près.  <br>
@@ -24,9 +39,8 @@ Il décrit en détail le fonctionnement du jeu, les choix techniques, les bugs r
 
 ![Pacman demo](docs/pacman_demo.gif)
 
-🔧 Note : Ce projet visait la logique de jeu et non l’apparence graphique. Le moteur est minimaliste mais fonctionnel.
-
-<br>
+🔧 Note : Ce projet visait la logique de jeu et non l’apparence graphique. Le moteur est minimaliste mais fonctionnel.<br>
+🔧 Mode debug activé (visualisation des états internes, utilisé pour le développement et le test des collisions).<br>
 
 *Seatech – 2024* <br>
 *0wI* 
