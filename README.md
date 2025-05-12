@@ -48,6 +48,11 @@ Il décrit en détail le fonctionnement du jeu, les choix techniques, les bugs r
 
 ![Pacman demo3](Documentation/PacmanV1-dialog.gif)
 
+🔧 Boîte de dialogue — fonctionnalité partiellement implémentée.  Il est préférable de modifier les variables directement dans le code, mais j’ai inclus cette démo pour montrer les contrôles disponibles. <br>
+🕒 Pour l’horloge : plus la valeur est faible, plus Pac-Man se déplace rapidement (de mémoire).  La modification prend effet après un game over. <br>
+⚠️ Je n’ai pas eu le temps de finaliser cette fonctionnalité, mais je tenais à l’inclure dans la démonstration. <br>
+
+
 *Seatech – 2024* <br>
 *0wI* 
 
